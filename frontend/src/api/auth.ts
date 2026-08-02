@@ -6,6 +6,24 @@ async function getCsrfCookie() {
    
 }
 
+export async function register(name: string, email: string, password: string, password_confirmation: string) {
+
+    await getCsrfCookie();
+
+    const res = await api.post('/register', {
+
+        name,
+        email,
+        password,
+        password_confirmation
+        
+
+    })
+
+    return res.data
+
+}
+
 export async function login(email: string, password: string) {
 
     await getCsrfCookie();
