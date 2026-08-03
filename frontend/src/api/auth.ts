@@ -46,3 +46,10 @@ export async function logout() {
     return res.data
     
 }
+
+export async function fetchUser() {
+
+    const res = await api.get('/user');
+    return res.data
+
+}
