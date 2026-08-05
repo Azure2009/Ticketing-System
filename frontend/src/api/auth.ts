@@ -17,7 +17,6 @@ export async function register(name: string, email: string, password: string, pa
         password,
         password_confirmation
         
-
     })
 
     return res.data
@@ -42,6 +41,8 @@ export async function login(email: string, password: string) {
 export async function logout() {
 
     const res = await api.post('/logout');
+
+    console.log(res.data)
 
     return res.data
     

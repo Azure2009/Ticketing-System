@@ -11,9 +11,23 @@ class TicketController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        
+        $user = $request->user();
+
+        $query = Ticket::query()->with('creator', 'assignee');
+
+        if ($user->role === 'requester') {
+
+            $query->where('users_id', $user->id);
+
+        }
+
+        $tickets = $query->get();
+
+        return response()->json($tickets);
+
     }
 
     /**
