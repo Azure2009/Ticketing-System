@@ -52,6 +52,12 @@
         
     }
 
+    function seeTickets() {
+
+        router.push({name: 'tickets'})
+
+    }
+
 
 </script>
 
@@ -99,9 +105,9 @@
             
         </form>
 
-        
+        <button class="relative flex text-white mt-50 cursor-pointer bg-blue-500 rounded-xl p-2 hover:bg-blue-600" v-on:click="seeTickets">My tickets</button>
 
-        <button class="relative text-white mt-50 cursor-pointer bg-blue-500 rounded-xl p-2" v-on:click="handleLogout">Log out</button>
+        <button class="relative flex text-white mt-50 cursor-pointer bg-blue-500 rounded-xl p-2 hover:bg-blue-600" v-on:click="handleLogout">Log out</button>
     </div>
 
 </template>

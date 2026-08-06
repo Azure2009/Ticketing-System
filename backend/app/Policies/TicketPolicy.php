@@ -21,8 +21,21 @@ class TicketPolicy
      */
     public function view(User $user, Ticket $ticket): bool
     {
-    
-        return false;
+
+        if ($user->role === 'agent' || $user->role === 'admin') {
+
+            return true;
+
+        } elseif ($ticket->user_id === $user->id) {
+
+            return true;
+
+        } else {
+
+            return false;
+
+        }    
+
     }
 
     /**
@@ -38,7 +51,7 @@ class TicketPolicy
      */
     public function update(User $user, Ticket $ticket): bool
     {
-        return false;
+        return $user->role === 'agent' || $user->role === 'agent';
     }
 
     /**
@@ -46,7 +59,7 @@ class TicketPolicy
      */
     public function delete(User $user, Ticket $ticket): bool
     {
-        return false;
+        return $user->role === 'admin';
     }
 
     /**

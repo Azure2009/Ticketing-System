@@ -1,11 +1,12 @@
 import { defineStore } from "pinia";
 import { ref } from 'vue';
-import { store as apiStore } from '../api/ticket';
-
+import { store as apiStore, index as apiIndex } from '../api/ticket';
+import type { Ticket } from '../types/ticket'
 
 export const useTicketStore = defineStore('ticket', () => {
 
     const ticket = ref(null)
+    const tickets = ref<Ticket[]>([])
 
     async function store(title: string, description: string, priority: null | string) {
 
@@ -13,6 +14,14 @@ export const useTicketStore = defineStore('ticket', () => {
 
     }
 
-    return { ticket, store }
+    async function index() {
+
+        tickets.value = await apiIndex()
+
+    }
+
+    return { ticket, tickets, store, index }
 
 })
+
+

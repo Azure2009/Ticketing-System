@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Ticket;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 
 class TicketController extends Controller
 {
+
+    use AuthorizesRequests;
+
     /**
      * Display a listing of the resource.
      */
@@ -70,8 +74,12 @@ class TicketController extends Controller
      * Display the specified resource.
      */
     public function show(Ticket $ticket)
-    {
-        //
+    {   
+
+        $this->authorize('view', $ticket);
+
+        return response()->json($ticket->load('creator', 'assignee'));
+        
     }
 
     /**

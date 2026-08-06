@@ -14,4 +14,6 @@ Route::get('/user', function (Request $request) {
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+
 Route::post('/create-ticket', [TicketController::class, 'store'])->middleware('auth:sanctum');
+Route::get('/tickets', [TicketController::class, 'index'])->middleware('auth:sanctum'); // list of tickets
