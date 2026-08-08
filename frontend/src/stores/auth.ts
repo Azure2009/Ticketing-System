@@ -1,11 +1,14 @@
 import { defineStore } from 'pinia'
 import { ref, computed } from 'vue'
+import type { User } from '../types/user'
 import { login as apiLogin, logout as apiLogout, register as apiRegister, fetchUser as apiFetchUser} from '../api/auth'
 
 export const useAuthStore = defineStore('auth', () => {
 
-    // My state
-    const user = ref(null)
+    
+    const user = ref<User | null>(null)
+
+    const isReady = ref(false) 
 
     // My getter
     const isLoggedIn = computed(() => {
@@ -37,11 +40,9 @@ export const useAuthStore = defineStore('auth', () => {
 
     async function logout() {
 
-        const res = await apiLogout()
+        await apiLogout()
 
         user.value = null
-
-        console.log(res.message)
 
     }
 
@@ -55,10 +56,14 @@ export const useAuthStore = defineStore('auth', () => {
             
             user.value = null
 
+        } finally {
+
+            isReady.value = true
+
         }
         
     }
 
-    return { user, isLoggedIn, login, logout, register, fetchUser}
+    return { user, isLoggedIn, isReady, login, logout, register, fetchUser}
 
 });

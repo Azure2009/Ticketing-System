@@ -1,4 +1,5 @@
 import api from './axios'
+import type { User } from '../types/user'
 
 async function getCsrfCookie() {
 
@@ -6,7 +7,7 @@ async function getCsrfCookie() {
    
 }
 
-export async function register(name: string, email: string, password: string, password_confirmation: string) {
+export async function register(name: string, email: string, password: string, password_confirmation: string): Promise<User> {
 
     await getCsrfCookie();
 
@@ -23,7 +24,7 @@ export async function register(name: string, email: string, password: string, pa
 
 }
 
-export async function login(email: string, password: string) {
+export async function login(email: string, password: string): Promise<User> {
 
     await getCsrfCookie();
 
@@ -48,9 +49,12 @@ export async function logout() {
     
 }
 
-export async function fetchUser() {
+export async function fetchUser(): Promise<User> {
 
     const res = await api.get('/user');
+
+    console.log(res.data)
+
     return res.data
 
 }

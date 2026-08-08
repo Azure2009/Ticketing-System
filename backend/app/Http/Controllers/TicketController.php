@@ -76,7 +76,7 @@ class TicketController extends Controller
     public function show(Ticket $ticket)
     {   
 
-        $this->authorize('view', $ticket);
+        $this->authorize('view', $ticket); 
 
         return response()->json($ticket->load('creator', 'assignee'));
         

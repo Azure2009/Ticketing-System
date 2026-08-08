@@ -37,6 +37,7 @@ const router = createRouter({
       path: '/main',
       name: 'main',
       component: MainView,
+      meta: {requiresAuth: true}
     },
 
     {
@@ -57,9 +58,16 @@ const router = createRouter({
   ]
 })
 
-router.beforeEach((to) => {
+router.beforeEach(async (to) => {
 
-  const authStore = useAuthStore();
+  const authStore = useAuthStore()
+
+  console.log('Guard check:', {
+    to: to.path,
+    isReady: authStore.isReady,
+    isLoggedIn: authStore.isLoggedIn,
+    user: authStore.user,
+  })
 
   if (to.meta.guestOnly && authStore.isLoggedIn) {
 

@@ -17,7 +17,15 @@ export async function store(title: string, description: string, priority: null |
 
 export async function index(): Promise<Ticket[]> {
 
-    const res = await api.get('/tickets')
+    const res = await api.get('/tickets/')
+
+    return res.data
+
+}
+
+export async function show(ticket_id: number): Promise<Ticket> {
+
+    const res = await api.get(`/tickets/${ticket_id}`)
 
     return res.data
 
