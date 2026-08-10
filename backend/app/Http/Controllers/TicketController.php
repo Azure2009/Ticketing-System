@@ -102,7 +102,7 @@ class TicketController extends Controller
 
             'status' => ['nullable', Rule::in(['open', 'in_progress', 'resolved', 'closed'])],
             'priority' => ['nullable', Rule::in(['low', 'medium', 'high', 'urgent'])],
-            'assigned_to' => ['nullable', Rule::exists('users', 'id')]
+            'assignee_id' => ['nullable', Rule::exists('users', 'id')]
 
         ]);
 
@@ -110,7 +110,7 @@ class TicketController extends Controller
 
             'status' => $validated['status'] ?? $ticket->status, // make sure previous value sila babalik (hindi default value) kung sakaling hindi inedit ng user toh
             'priority' => $validated['priority'] ?? $ticket->priority,
-            'assigned_to' => $validated['assigned_to'] ?? $ticket->assigned_to
+            'assigned_to' => $validated['assignee_id'] ?? $ticket->assigned_to
 
         ]);
 
