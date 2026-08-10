@@ -95,7 +95,27 @@ class TicketController extends Controller
      */
     public function update(Request $request, Ticket $ticket)
     {
-        //
+
+        $this->authorize('update', $ticket); //since my policy tayo para sa ticket, dapat icheck palagi muna kung authorize ba tong user na to gawin tong bagay na ito.
+
+        $validated = $request->validate([
+
+            'status' => ['nullable', Rule::in(['open', 'in_progress', 'resolved', 'closed'])],
+            'priority' => ['nullable', Rule::in(['low', 'medium', 'high', 'urgent'])],
+            'assigned_to' => ['nullable', Rule::exists('users', 'id')]
+
+        ]);
+
+        $ticket->update([
+
+            'status' => $validated['status'] ?? $ticket->status, // make sure previous value sila babalik (hindi default value) kung sakaling hindi inedit ng user toh
+            'priority' => $validated['priority'] ?? $ticket->priority,
+            'assigned_to' => $validated['assigned_to'] ?? $ticket->assigned_to
+
+        ]);
+
+        return response()->json($ticket);
+
     }
 
     /**
@@ -103,6 +123,12 @@ class TicketController extends Controller
      */
     public function destroy(Ticket $ticket)
     {
-        //
+
+        $this->authorize('delete', $ticket); // wag kalimutan i-check kung authorize ba mag delete yung user na ito.
+
+        $ticket->delete(); // delete yung ticket
+
+        return response()->json(['message' => 'Ticket successfully deleted.']); // Let the user know na deleted na yung ticket
+
     }
 }

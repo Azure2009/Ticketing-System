@@ -31,3 +31,17 @@ export async function show(ticket_id: number): Promise<Ticket> {
 
 }
 
+export async function update(ticket_id: number, assignee_id: null | string, priority: null | string, status: null | string): Promise<Ticket> {
+
+    const res = await api.patch(`/tickets/${ticket_id}/update`, {
+
+        assignee_id,
+        priority,
+        status
+
+    })
+
+    return res.data
+
+}
+

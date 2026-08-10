@@ -43,8 +43,6 @@ export async function logout() {
 
     const res = await api.post('/logout');
 
-    console.log(res.data)
-
     return res.data
     
 }
@@ -52,8 +50,6 @@ export async function logout() {
 export async function fetchUser(): Promise<User> {
 
     const res = await api.get('/user');
-
-    console.log(res.data)
 
     return res.data
 

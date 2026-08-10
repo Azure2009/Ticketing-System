@@ -5,7 +5,6 @@ import { login as apiLogin, logout as apiLogout, register as apiRegister, fetchU
 
 export const useAuthStore = defineStore('auth', () => {
 
-    
     const user = ref<User | null>(null)
 
     const isReady = ref(false) 
@@ -24,6 +23,20 @@ export const useAuthStore = defineStore('auth', () => {
         }
 
     })
+
+    let fetchUserPromise: Promise<void> | null = null
+
+    function ensureUserFetched() {
+
+        if (!fetchUserPromise) {
+
+            fetchUserPromise = fetchUser()
+
+        }
+
+        return fetchUserPromise
+
+    }
 
     // My action (a logic that changes the state)
     async function login(email: string, password: string) {
@@ -64,6 +77,6 @@ export const useAuthStore = defineStore('auth', () => {
         
     }
 
-    return { user, isLoggedIn, isReady, login, logout, register, fetchUser}
+    return { user, isLoggedIn, isReady, login, logout, register, fetchUser, ensureUserFetched}
 
 });

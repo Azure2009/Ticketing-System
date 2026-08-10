@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from 'vue';
-import { store as apiStore, index as apiIndex, show as apiShow } from '../api/ticket';
+import { store as apiStore, index as apiIndex, show as apiShow, update as apiUpdate} from '../api/ticket';
 import type { Ticket } from '../types/ticket'
 
 export const useTicketStore = defineStore('ticket', () => {
@@ -29,7 +29,13 @@ export const useTicketStore = defineStore('ticket', () => {
 
     }
 
-    return { ticket, tickets, ticketInView,store, index, show }
+    async function update(ticket_id: number, assignee_id: null | string, priority: null | string, status: null | string) {
+
+        ticket.value = await apiUpdate(ticket_id, assignee_id, priority, status)
+
+    }
+
+    return { ticket, tickets, ticketInView,store, index, show, update }
 
 })
 

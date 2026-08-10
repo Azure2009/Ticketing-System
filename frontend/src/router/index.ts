@@ -61,13 +61,9 @@ const router = createRouter({
 router.beforeEach(async (to) => {
 
   const authStore = useAuthStore()
-
-  console.log('Guard check:', {
-    to: to.path,
-    isReady: authStore.isReady,
-    isLoggedIn: authStore.isLoggedIn,
-    user: authStore.user,
-  })
+  await authStore.ensureUserFetched() // Ang purpose nito ay i-wait yung promise object (na galing kay fetch user()) na mapunta from pending state to
+  // either fulfilled state o rejected state. Kasi technically kung fulfilled state na siya, ibigsabihin, natapos na yung fetch user function at meron na tayong type user sa user variable (hindi na siya null) 
+ // benefit nito is everytime na pupunta tayo sa bagong route, hindi na kailangan kumuha na naman ng panibagong response (panibagong user value) sa ticketcontroller. 
 
   if (to.meta.guestOnly && authStore.isLoggedIn) {
 
