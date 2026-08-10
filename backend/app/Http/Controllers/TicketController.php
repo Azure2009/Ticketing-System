@@ -108,7 +108,7 @@ class TicketController extends Controller
 
         $ticket->update([
 
-            'status' => $validated['status'] ?? $ticket->status, // make sure previous value sila babalik (hindi default value) kung sakaling hindi inedit ng user toh
+            'status' => $validated['status'] ?? $ticket->status, // make sure previous value sila babalik (hindi default value) sa mga input fields na hindi inedit ng user.
             'priority' => $validated['priority'] ?? $ticket->priority,
             'assigned_to' => $validated['assignee_id'] ?? $ticket->assigned_to
 

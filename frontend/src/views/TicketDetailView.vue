@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
     import { ref, onMounted } from 'vue'
-    import { useRoute } from 'vue-router'
+    import { useRoute, useRouter } from 'vue-router'
     import { useTicketStore } from '../stores/ticket'
     import { useAuthStore } from '../stores/auth'
 
@@ -10,6 +10,7 @@
     const ticketStore = useTicketStore()
     const authStore = useAuthStore()
 
+    const router = useRouter()
     const url = useRoute()
 
     const id = Number(url.params.id)
@@ -18,6 +19,7 @@
     const priority = ref(null)
     const assigned_to = ref('')
     const successMessage = ref('')
+    const deleteMessage = ref('')
     const errorMessage = ref('')
 
     async function handleEdit() {
@@ -41,12 +43,40 @@
 
     }
 
-    function showForm() {isBeingEdited.value = true}
+    async function handleDelete() {
+
+        try {
+            
+            const res = await ticketStore.delete_ticket(id)
+
+            ticketStore.ticketInView = null
+
+            deleteMessage.value = res.message
+
+
+        } catch (error: any) {
+            
+            errorMessage.value = error.response?.data?.message
+
+        }
+
+    }
+
+    function showForm() {
+        isBeingEdited.value = true
+    }
+
+    function backToTickets() {
+
+        router.push({name: 'tickets'})
+
+    }
 
 
     onMounted(async () => {
 
         await ticketStore.show(id)
+        console.log(deleteMessage.value)
 
     })
 
@@ -55,16 +85,18 @@
 <template>
     <div class="relative p-4 justify-center">
 
-        <p v-if="!ticketStore.ticketInView">Loading please wait...</p>
+        <p v-if="!ticketStore.ticketInView && !deleteMessage">Loading please wait...</p>
         <div v-if="!isBeingEdited">
         <p>{{ ticketStore.ticketInView?.title }}</p>
         <p>{{ ticketStore.ticketInView?.description }}</p>
         <p>{{ ticketStore.ticketInView?.status }}</p>
         <p>{{ ticketStore.ticketInView?.priority }}</p>
-        <p>{{ ticketStore.ticketInView?.assignee }}</p>
+        <p>{{ ticketStore.ticketInView?.assignee?.name }}</p>
         </div> 
+
+        <p v-if="deleteMessage" class="flex text-green-500">{{ deleteMessage }}</p>
         
-        <form v-if="isBeingEdited === true" @submit.prevent="handleEdit" class="">
+        <form v-if="isBeingEdited === true && !deleteMessage" @submit.prevent="handleEdit" class="">
             
             <div class="flex">
 
@@ -104,14 +136,25 @@
 
         <p v-if="successMessage" class="text-green-500">Ticket successfully updated</p>
 
-        <button         
-        v-if="authStore.user?.role === 'agent' || authStore.user?.role === 'admin' && !isBeingEdited"
-        class="flex mt-20 text-white cursor-pointer bg-blue-500 rounded-xl p-2 hover:bg-blue-600"
-        v-on:click="showForm"        
-        >
-        Edit
-        </button>
-        
+        <div class="flex gap-x-4">
+            <button         
+            v-if="authStore.user?.role === 'agent' || authStore.user?.role === 'admin' && !isBeingEdited && !deleteMessage"
+            class="flex mt-20 text-white cursor-pointer bg-blue-500 rounded-xl p-2 hover:bg-blue-600"
+            v-on:click="showForm"        
+            >
+            Edit
+            </button>
+
+            <button         
+            v-if="authStore.user?.role === 'admin' && !isBeingEdited && !deleteMessage"
+            class="flex mt-20 text-white cursor-pointer bg-red-500 rounded-xl p-2 hover:bg-blue-600"
+            v-on:click="handleDelete"        
+            >
+            Delete
+            </button>
+        </div>
+
+        <button class="flex ml-auto text-white cursor-pointer bg-blue-500 rounded-xl p-2 hover:bg-blue-600" v-on:click="backToTickets">My tickets</button>
         
     </div>
 </template>

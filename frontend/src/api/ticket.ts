@@ -45,3 +45,12 @@ export async function update(ticket_id: number, assignee_id: null | string, prio
 
 }
 
+export async function delete_ticket(ticket_id: number) {
+
+    const res = await api.delete(`/tickets/${ticket_id}/delete`)
+
+    console.log(res.data)
+
+    return res.data
+
+}

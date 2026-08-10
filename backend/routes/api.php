@@ -19,3 +19,4 @@ Route::post('/create-ticket', [TicketController::class, 'store'])->middleware('a
 Route::get('/tickets', [TicketController::class, 'index'])->middleware('auth:sanctum'); // list of tickets
 Route::get('/tickets/{ticket}', [TicketController::class, 'show'])->middleware('auth:sanctum');// show detail of specific ticket
 Route::patch('/tickets/{ticket}/update', [TicketController::class, 'update'])->middleware('auth:sanctum');// update particular ticket
+Route::delete('/tickets/{ticket}/delete', [TicketController::class, 'destroy'])->middleware('auth:sanctum');// delete particular ticket

@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { ref } from 'vue';
-import { store as apiStore, index as apiIndex, show as apiShow, update as apiUpdate} from '../api/ticket';
+import { store as apiStore, index as apiIndex, show as apiShow, update as apiUpdate, delete_ticket as apiDelete_ticket} from '../api/ticket';
 import type { Ticket } from '../types/ticket'
 
 export const useTicketStore = defineStore('ticket', () => {
@@ -35,7 +35,15 @@ export const useTicketStore = defineStore('ticket', () => {
 
     }
 
-    return { ticket, tickets, ticketInView,store, index, show, update }
+    async function delete_ticket(ticket_id: number) {
+
+        const res = await apiDelete_ticket(ticket_id)
+
+        return res
+
+    }
+
+    return { ticket, tickets, ticketInView,store, index, show, update, delete_ticket }
 
 })
 
