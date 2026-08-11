@@ -15,9 +15,11 @@ export async function store(title: string, description: string, priority: null |
 
 }
 
-export async function index(): Promise<Ticket[]> {
+export async function index(status: null | string): Promise<Ticket[]> {
 
-    const res = await api.get('/tickets/')
+    const url = status? `/tickets?status=${status}` : '/tickets'
+
+    const res = await api.get(url)
 
     return res.data
 

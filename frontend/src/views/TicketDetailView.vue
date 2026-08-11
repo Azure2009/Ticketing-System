@@ -46,13 +46,16 @@
     async function handleDelete() {
 
         try {
+
+            const confirmed = confirm('Are you sure you want to delete this ticket?')
             
-            const res = await ticketStore.delete_ticket(id)
+            if (confirmed) {
 
-            ticketStore.ticketInView = null
+                await ticketStore.delete_ticket(id)
 
-            deleteMessage.value = res.message
+                router.push({ name: 'tickets' })
 
+            }
 
         } catch (error: any) {
             
@@ -62,16 +65,15 @@
 
     }
 
+    function rerouteToTicketList() {
+
+        router.push({ name: 'tickets' })
+
+    }
+
     function showForm() {
         isBeingEdited.value = true
     }
-
-    function backToTickets() {
-
-        router.push({name: 'tickets'})
-
-    }
-
 
     onMounted(async () => {
 
@@ -94,8 +96,6 @@
         <p>{{ ticketStore.ticketInView?.assignee?.name }}</p>
         </div> 
 
-        <p v-if="deleteMessage" class="flex text-green-500">{{ deleteMessage }}</p>
-        
         <form v-if="isBeingEdited === true && !deleteMessage" @submit.prevent="handleEdit" class="">
             
             <div class="flex">
@@ -154,7 +154,7 @@
             </button>
         </div>
 
-        <button class="flex ml-auto text-white cursor-pointer bg-blue-500 rounded-xl p-2 hover:bg-blue-600" v-on:click="backToTickets">My tickets</button>
+        <button class="flex ml-auto text-white cursor-pointer bg-blue-500 rounded-xl p-2 hover:bg-blue-600" v-on:click="rerouteToTicketList">My tickets</button>
         
     </div>
 </template>

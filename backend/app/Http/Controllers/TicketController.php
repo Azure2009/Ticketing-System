@@ -17,18 +17,27 @@ class TicketController extends Controller
      */
     public function index(Request $request)
     {
+        $status = $request->query('status'); // retrieve ng value sa query parameter kung meron man
         
-        $user = $request->user();
+        $user = $request->user(); // identify kung sino yung user na gumagawa ng request
 
-        $query = Ticket::query()->with('creator', 'assignee');
+        $query = Ticket::query()->with('creator', 'assignee'); // Gawa tayo ng request sa ticket table pero wag muna i-run. Tsaka make sure na isama na yung mga records sa user table (creator and assignee) na related sa i ququery natin, kesa hiwalay pa na query.
 
-        if ($user->role === 'requester') {
+        if ($user->role === 'requester') { // Kung requester siya, mag chain tayo ng where clause condition sa query object natin. Magiging "query->with->where" na siya
 
-            $query->where('users_id', $user->id);
+            $query->where('user_id', $user->id);
 
         }
 
-        $tickets = $query->get();
+        if ($status) {
+
+            $query->where('status', $status);
+
+        } // Kung may query parameter na sinend, chain ulit ng panibagong condition sa query object. Similar lang sa if condition toh pero 
+
+            
+
+        $tickets = $query->get(); // run na yung query. Since nag chaining tayo, Depende sa mga previous na nangyare kung ano i rereturn ng query object na ito.
 
         return response()->json($tickets);
 
