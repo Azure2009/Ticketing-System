@@ -4,11 +4,13 @@
     import { useRoute, useRouter } from 'vue-router'
     import { useTicketStore } from '../stores/ticket'
     import { useAuthStore } from '../stores/auth'
+    import { useCommentStore } from '../stores/comment'
 
     const isBeingEdited = ref(false)
 
     const ticketStore = useTicketStore()
     const authStore = useAuthStore()
+    const commentStore = useCommentStore()
 
     const router = useRouter()
     const url = useRoute()
@@ -21,6 +23,7 @@
     const successMessage = ref('')
     const deleteMessage = ref('')
     const errorMessage = ref('')
+    const comment = ref('')
 
     async function handleEdit() {
 
@@ -75,9 +78,32 @@
         isBeingEdited.value = true
     }
 
+    async function handlePost() {
+
+       try {
+
+        if (comment) {
+
+            await commentStore.store(comment.value, id)
+            await commentStore.index(id)
+            comment.value = ''
+
+        }
+        
+       } catch (error: any) {
+
+            console.log(error)
+
+       }
+
+
+    }
+
     onMounted(async () => {
 
         await ticketStore.show(id)
+        await commentStore.index(id)
+
         console.log(deleteMessage.value)
 
     })
@@ -155,6 +181,22 @@
         </div>
 
         <button class="flex ml-auto text-white cursor-pointer bg-blue-500 rounded-xl p-2 hover:bg-blue-600" v-on:click="rerouteToTicketList">My tickets</button>
+
+        <div class="grid grid-cols-1 gap-y-2 w-100 p-2 bg-slate-200 border border-blue-500 rounded-xl">
+
+            <ul v-if="commentStore.comments" class="relative bg-white m-4 p-2">
+                <li v-for="comment in commentStore.comments" :key="comment.id">
+                    <p>{{ comment.body }}</p>
+                    <p class="flex ml-auto">Comment by: {{ comment.creator.name }}</p>
+                </li>
+            </ul>
+
+            <form @submit.prevent="handlePost" class="relative">
+                <textarea v-model="comment" id="comment" placeholder="Post a comment" class="w-full p-2 resize-none rounded-xl focus:outline-slate-700"></textarea>
+                <button type="submit" class="flex ml-auto border bg-white rounded-xl mt-2 py-[1] px-2 text-slate-500 cursor-pointer">Post</button>
+            </form>            
+            
+        </div>
         
     </div>
 </template>

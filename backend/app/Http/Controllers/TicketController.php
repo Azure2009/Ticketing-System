@@ -33,7 +33,7 @@ class TicketController extends Controller
 
             $query->where('status', $status);
 
-        } // Kung may query parameter na sinend, chain ulit ng panibagong condition sa query object. Similar lang sa if condition toh pero 
+        } // Kung may query parameter na sinend, chain ulit ng panibagong condition sa query object.
 
             
 

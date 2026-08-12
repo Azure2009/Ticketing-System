@@ -16,14 +16,14 @@
     onMounted(async () => { // render muna lahat ng tickets pag ka load ng page
 
         await ticketStore.index(status.value)
-        isFiltered.value = true
+        
 
     })
 
     async function renderTicketsByStatus() {
 
         await ticketStore.index(status.value)
-        
+        isFiltered.value = true
     }
 
     async function resetFilter() {
