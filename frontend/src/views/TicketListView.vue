@@ -2,12 +2,9 @@
 
     import { onMounted, ref } from 'vue'
     import { useTicketStore } from '../stores/ticket'
-    import { RouterLink, useRouter } from 'vue-router'
-
+    import { RouterLink } from 'vue-router'
 
     const ticketStore = useTicketStore()
-
-    const router = useRouter()
 
     const status = ref<null | string>(null)
 
@@ -34,22 +31,16 @@
 
     }
 
-    function rerouteToMain() {
-
-        router.push( {name: 'main'} )
-
-    }
-
 </script>
 <template>
 
-    <div class="p-4">
+    <div class="p-6">
 
-        <button class="flex text-white cursor-pointer bg-blue-500 rounded-xl p-2 my-6 hover:bg-blue-600" v-on:click="rerouteToMain">Home</button>
 
-        <div class="flex mb-4 items-center">
+
+        <div class="">
             
-            <button v-if="isFiltered" v-on:click="resetFilter" class="text-white cursor-pointer bg-blue-500 rounded-xl p-2 my-6 hover:bg-blue-600">Reset Filter</button>
+            <button v-if="isFiltered" v-on:click="resetFilter" class="text-white cursor-pointer bg-darkCoffee rounded-xl p-2 my-6 hover:bg-blue-600">Reset Filter</button>
 
             <select class="focus:outline-none ml-auto" id="filter" v-model="status">          
                 <option :value="null" disabled selected>Filter by status:</option>          
@@ -59,31 +50,34 @@
                 <option class="text-white bg-red-500" value="closed">closed</option>
             </select>
 
-            <button v-on:click="renderTicketsByStatus" class="ml-4 text-white cursor-pointer bg-blue-500 rounded-xl p-2 my-6 hover:bg-blue-600">filter</button>
+            <button v-on:click="renderTicketsByStatus" class="ml-4 text-white cursor-pointer bg-darkCoffee rounded-xl p-2 my-6 hover:bg-blue-600">filter</button>
 
         </div>
 
-        
-
-        <p>My tickets</p>
-        
         <p v-if="ticketStore.tickets.length === 0">Loading tickets...</p> <!-- Truthy ang array kahit empty pa yung loob kaya hindi gagana yung condition na !ticketStore.tickets -->
 
-        <ul class="ml-20 grid grid-cols-1 gap-y-2 w-300 p-2 bg-slate-200 border border-blue-500 rounded-xl items-center" v-else-if="ticketStore.tickets">
+        <ul class="ml-20 grid grid-cols-1 gap-y-2 w-300 p-2 items-center" v-else-if="ticketStore.tickets.length > 0">
 
-            <li class="grid grid-cols-6 justify-items-center p-2 gap-x-4 " v-for="ticket in ticketStore.tickets" :key="ticket.id">
-                
-                <p class="text-blue-500 col-start-1">{{ ticket.title }}</p>
-                <p v-if="ticket.assignee" class="bg-green-500 rounded-xl col-start-2">Assigned to: {{ ticket.assignee.name }}</p>
-                <p v-else class="bg-gray-500 rounded-xl col-start-2 p-2">Unassigned</p>
-                <p class="mr-4 col-start-3">Priority: {{ ticket.priority }}</p>
-                <p class="col-start-4">Created by: {{ ticket.creator.name }}</p>
-                <p class="col-start-5">Status: {{ ticket.status }}</p>
-                
-                <RouterLink :to="{name: 'ticket-detail', params: { id: ticket.id }}"><button class="col-start-6 cursor-pointer">...</button></RouterLink>
+            <div class="grid grid-cols-6 border border-darkCoffee rounded-xl justify-items-center-safe items-center p-2 gap-x-4">
 
-            </li>
+                <p>Title</p>
+                <p>Assignee</p>
+                <p>Priority</p>
+                <p>Creator</p>
+                <p>Status</p>
+                
+            </div>
             
+            <li  v-for="ticket in ticketStore.tickets" :key="ticket.id">
+                <RouterLink :to="{name: 'ticket-detail', params: { id: ticket.id }}" class="grid grid-cols-6 justify-items-center-safe items-center p-2 gap-x-4 hover:bg-darkCoffee rounded-xl text-white">    
+                    <p class="text-slate-500 col-start-1">{{ ticket.title }}</p>
+                    <p v-if="ticket.assignee" class="text-slate-500 bg-darkSpruce rounded-xl col-start-2">{{ ticket.assignee.name }}</p>
+                    <p v-else class="text-slate-500 rounded-xl col-start-2 p-2">Unassigned</p>
+                    <p class="text-slate-500 mr-4 col-start-3">{{ ticket.priority }}</p>
+                    <p class="text-slate-500 col-start-4">{{ ticket.creator.name }}</p>
+                    <p class="text-slate-500 col-start-5">{{ ticket.status }}</p>            
+                </RouterLink>
+            </li>
         </ul>
     </div>
 

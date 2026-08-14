@@ -16,22 +16,6 @@
     const successMessage = ref('')
     const errorMessage = ref('')
 
-    async function handleLogout() {
-        
-        try {
-            
-            await authStore.logout()
-
-            router.push({ name: 'index' })
-
-        } catch (error: any) {
-
-            error.response?.data?.message
-            
-        }
-
-    }
-
     async function handleTicketCreation() {
 
         try {
@@ -52,39 +36,29 @@
         
     }
 
-    function seeTickets() {
-
-        router.push({name: 'tickets'})
-
-    }
-
-
 </script>
 
 
 <template>
 
-    
-    <div class="relative p-4">
-
-        <button class="flex ml-auto text-white cursor-pointer bg-blue-500 rounded-xl p-2 hover:bg-blue-600" v-on:click="seeTickets">My tickets</button>
-            
+    <div class="relative p-6">
+        
         <div class="justify-items-center">
-            <p class="mx-auto">Welcome to the ticketing system</p>
+            <p class="mx-auto font-mono text-everGreen">Welcome to the ticketing system</p>
             <form class="relative mt-4" @submit.prevent="handleTicketCreation">
 
-                <button class="self-center my-4 text-white bg-blue-500 p-2 rounded-xl cursor-pointer hover:bg-blue-600" type="submit">Create ticket</button>
+                <button class="self-center my-4 text-white bg-darkCoffee p-2 rounded-xl cursor-pointer hover:bg-darkCoffee shadow-xl/20 ring-white shadow-darkCoffee" type="submit">Create ticket</button>
                 
-                <div class="grid grid-cols-1 gap-y-2 w-100 p-2 bg-slate-200 border border-blue-500 rounded-xl">
+                <div class="grid grid-cols-1 gap-y-2 w-100 p-2 border border-darkCoffee shadow-xl/20 rounded-xl">
 
                     <div class="flex row-start-1 items-center">
-                        <label class="text-blue-500" for="title">Title:</label>
-                        <input class="ml-2 p-2 w-full border border-blue-500 rounded-xl bg-white focus:outline-blue-500 rounded-xl" id="title" type="text" v-model="title" required>
+                        <label class="text-slate-500" for="title">Title:</label>
+                        <input class="ml-2 p-2 w-full border border-darkCoffee rounded-xl bg-white focus:outline-darkCoffee rounded-xl" id="title" type="text" v-model="title" required>
                     </div>
 
                     <div class="row-start-2">
-                        <label class="text-blue-500" for="description">Description</label>
-                        <textarea class="flex w-full border border-blue-500 outline-none p-2 bg-white resize-none rounded-xl" id="description" v-model="description" required>
+                        <label class="text-slate-500" for="description">Description</label>
+                        <textarea class="flex w-full border border-darkCoffee outline-none p-2 bg-white resize-none rounded-xl" id="description" v-model="description" required>
 
                         </textarea>
 
@@ -108,8 +82,6 @@
                 <p class="relative flex text-red-500" v-if="errorMessage">{{ errorMessage }}</p>
                 
             </form>
-
-            <button class="relative flex text-white mt-50 cursor-pointer bg-blue-500 rounded-xl p-2 hover:bg-blue-600" v-on:click="handleLogout">Log out</button>
 
         </div>
 

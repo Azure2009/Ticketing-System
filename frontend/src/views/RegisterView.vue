@@ -2,20 +2,22 @@
 
   import { ref } from 'vue'
   import { useAuthStore } from '../stores/auth'
+  import { useRouter } from 'vue-router'
 
-  const AuthStore = useAuthStore();
+  const authStore = useAuthStore()
+  const router = useRouter()
 
-  const register_name = ref('');
-  const register_email = ref('');
-  const register_password = ref('');
-  const password_confirmation = ref('');
-  const register_errorMessage = ref('');
+  const register_name = ref('')
+  const register_email = ref('')
+  const register_password = ref('')
+  const password_confirmation = ref('')
+  const register_errorMessage = ref('')
 
   async function handleRegistration() {
 
     if (register_password.value !== password_confirmation.value) {
 
-      register_errorMessage.value = 'Passwords do not match.';
+      register_errorMessage.value = 'Passwords do not match.'
 
       return
 
@@ -23,11 +25,13 @@
 
     try {
 
-      await AuthStore.register(register_name.value , register_email.value, register_password.value, password_confirmation.value);
+      await authStore.register(register_name.value , register_email.value, register_password.value, password_confirmation.value)
+      router.push({ name: 'main' })
+
 
     } catch (err: any) {
 
-      register_errorMessage.value = err.response?.data?.message ?? 'Registration failed.' // 
+      register_errorMessage.value = err.response?.data?.message ?? 'Registration failed.' // Fallback na message para sa frontend 
     
     }
 

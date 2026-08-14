@@ -1,1 +1,15 @@
 @import "tailwindcss";
+@import "./fonts.css";
+
+@theme {
+
+    /* Kapag di gumana yung mga imported fonts mo, fallback ka to sans-serif at monospace */
+
+    --font-sans: "General Sans", sans-serif; 
+    --font-mono: "Martian Mono", monospace;
+
+    --color-everGreen: oklch(0.2503 0.0452 155.17);
+    --color-darkSpruce: oklch(0.5116 0.0922 155.24);
+    --color-darkCoffee: oklch(0.227 0.0324 54.84);
+
+}

@@ -1,5 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
+import IndexView from '../views/IndexView.vue'
+import AppLayout from '../views/AppLayout.vue'
 import LoginView from '../views/LoginView.vue'
 import RegisterView from '../views/RegisterView.vue'
 import MainView from '../views/MainView.vue'
@@ -8,6 +10,8 @@ import TicketDetailView from '../views/TicketDetailView.vue'
 
 
 import { useAuthStore } from '../stores/auth.ts' 
+
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -30,30 +34,23 @@ const router = createRouter({
     {
       path: '/',
       name: 'index',
-      redirect: '/login'
+      component: IndexView,
+      // redirect: '/login'
     },
 
     {
-      path: '/main',
-      name: 'main',
-      component: MainView,
-      meta: {requiresAuth: true}
-    },
+      path: '/app', 
+      component: AppLayout, // Basically, gusto ko mag render tong component na to sa bawat children niya (Eto yung magiging side panel component natin)
+      meta: {requiresAuth: true},
+      children: [
 
-    {
-      path: '/tickets',
-      name: 'tickets',
-      component: TicketListView,
-      meta: {requiresAuth: true}
-    },
+        { path: 'main', name: 'main', component: MainView },
+        { path: 'tickets', name: 'tickets', component: TicketListView },
+        { path: 'tickets/:id', name: 'ticket-detail', component: TicketDetailView },
 
-    {
-      path: '/tickets/:id',
-      name: 'ticket-detail',
-      component: TicketDetailView,
-      meta: {requiresAuth: true}
+      ]
+
     }
-
 
   ]
 })
