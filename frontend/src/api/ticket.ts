@@ -17,7 +17,7 @@ export async function store(title: string, description: string, priority: null |
 
 export async function index(status: null | string): Promise<Ticket[]> {
 
-    const url = status? `/tickets?status=${status}` : '/tickets'
+    const url = status? `/tickets?status=${status}` : '/tickets' // Kung walang query parameter na kasama, just show the tickets
 
     const res = await api.get(url)
 

@@ -53,12 +53,12 @@
 
                     <div class="flex row-start-1 items-center">
                         <label class="text-slate-500" for="title">Title:</label>
-                        <input class="ml-2 p-2 w-full border border-darkCoffee rounded-xl bg-white focus:outline-darkCoffee rounded-xl" id="title" type="text" v-model="title" required>
+                        <input class="ml-2 p-2 w-full border border-darkCoffee rounded-xl bg-white focus:outline-darkCoffee" id="title" type="text" v-model="title" required>
                     </div>
 
                     <div class="row-start-2">
                         <label class="text-slate-500" for="description">Description</label>
-                        <textarea class="flex w-full border border-darkCoffee outline-none p-2 bg-white resize-none rounded-xl" id="description" v-model="description" required>
+                        <textarea class="flex w-full border border-darkCoffee p-2 bg-white resize-none rounded-xl focus:outline-darkCoffee" id="description" v-model="description" required>
 
                         </textarea>
 
