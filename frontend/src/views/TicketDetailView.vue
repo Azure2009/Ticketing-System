@@ -5,6 +5,7 @@
     import { useTicketStore } from '../stores/ticket'
     import { useAuthStore } from '../stores/auth'
     import { useCommentStore } from '../stores/comment'
+    import { FilePenLine, User as agentIcon, UserShield as adminIcon } from '@lucide/vue'
 
     const isBeingEdited = ref(false)
 
@@ -68,12 +69,6 @@
 
     }
 
-    function rerouteToTicketList() {
-
-        router.push({ name: 'tickets' })
-
-    }
-
     function showForm() {
         isBeingEdited.value = true
     }
@@ -111,92 +106,153 @@
 </script>
 
 <template>
-    <div class="relative p-4 justify-center">
 
-        <p v-if="!ticketStore.ticketInView && !deleteMessage">Loading please wait...</p>
-        <div v-if="!isBeingEdited">
-        <p>{{ ticketStore.ticketInView?.title }}</p>
-        <p>{{ ticketStore.ticketInView?.description }}</p>
-        <p>{{ ticketStore.ticketInView?.status }}</p>
-        <p>{{ ticketStore.ticketInView?.priority }}</p>
-        <p>{{ ticketStore.ticketInView?.assignee?.name }}</p>
-        </div> 
+    <div class="bg-slate-100">
+        <div class="fixed inset-0 flex items-center justify-center z-50 pointer-events-none text-black text-3xl">
+            <div v-if="!ticketStore.ticketInView && !deleteMessage">Loading please wait...</div>
+        </div>
 
-        <form v-if="isBeingEdited === true && !deleteMessage" @submit.prevent="handleEdit" class="">
-            
-            <div class="flex">
 
-                <select class="mt-4 focus:outline-none" id="status" v-model="status">          
-                    <option :value="null" disabled selected>Set status (default: open)</option>          
-                    <option class="text-white bg-green-500" value="open">open</option>
-                    <option class="text-white bg-yellow-500" value="in_progress">in_progress</option>
-                    <option class="text-white bg-orange-500" value="resolved">resolved</option>
-                    <option class="text-white bg-red-500" value="closed">closed</option>
-                </select>
-
-            </div>
-
-            <div class="flex">
-
-                <select class="mt-4 focus:outline-none" id="priority" v-model="priority">          
-                    <option :value="null" disabled selected>Set priority (default: medium)</option>          
-                    <option class="text-white bg-green-500" value="low">low</option>
-                    <option class="text-white bg-yellow-500" value="medium">medium</option>
-                    <option class="text-white bg-orange-500" value="high">high</option>
-                    <option class="text-white bg-red-500" value="urgent">urgent</option>
-                </select>
-
-            </div>
-
-            <div class="flex my-4 items-center">
-            <label for="assigned_to">Assigned to</label>
-            <input type="text" id="assigned_to" v-model="assigned_to" placeholder="Enter assignee's id" class="ml-2 p-2 border border-blue-500 rounded-xl bg-white focus:outline-blue-500 rounded-xl">            
-            </div>
-
-            <div class="flex gap-x-4">
-            <button v-on:click="isBeingEdited = false" class="relative flex text-white cursor-pointer bg-blue-500 rounded-xl p-2 hover:bg-blue-600">Cancel</button>
-            <button type="submit" class="relative flex text-white cursor-pointer bg-blue-500 rounded-xl p-2 hover:bg-blue-600">Save</button>
-            </div>
-
-        </form>
-
-        <p v-if="successMessage" class="text-green-500">Ticket successfully updated</p>
-
-        <div class="flex gap-x-4">
-            <button         
-            v-if="authStore.user?.role === 'agent' || authStore.user?.role === 'admin' && !isBeingEdited && !deleteMessage"
-            class="flex mt-20 text-white cursor-pointer bg-blue-500 rounded-xl p-2 hover:bg-blue-600"
-            v-on:click="showForm"        
-            >
-            Edit
-            </button>
+        <div v-if="ticketStore.ticketInView" class="relative p-6">
 
             <button         
             v-if="authStore.user?.role === 'admin' && !isBeingEdited && !deleteMessage"
-            class="flex mt-20 text-white cursor-pointer bg-red-500 rounded-xl p-2 hover:bg-blue-600"
-            v-on:click="handleDelete"        
+            class="flex mb-4 text-slate-500 cursor-pointer border border-slate-500  rounded-xl p-2 hover:text-darkCoffee hover:border-darkCoffee hover:transition-[text,border] duration-200 "
+            @click="handleDelete"        
             >
-            Delete
+
+            Delete this ticket
+
             </button>
-        </div>
 
-        <button class="flex ml-auto text-white cursor-pointer bg-blue-500 rounded-xl p-2 hover:bg-blue-600" v-on:click="rerouteToTicketList">My tickets</button>
+            <p class="justify-self-center text-darkCoffee font-mono text-xl font-bold mb-4">Ticket</p>
 
-        <div class="grid grid-cols-1 gap-y-2 w-100 p-2 bg-slate-200 border border-blue-500 rounded-xl">
+            <!-- Ticket display ko -->
 
-            <ul v-if="commentStore.comments" class="relative bg-white m-4 p-2">
-                <li v-for="comment in commentStore.comments" :key="comment.id">
-                    <p>{{ comment.body }}</p>
-                    <p class="flex ml-auto">Comment by: {{ comment.creator.name }}</p>
-                </li>
-            </ul>
+            <div v-if="!isBeingEdited" class="grid grid-cols-3 border border-darkCoffee rounded-xl mx-36 mb-6 p-4 bg-white">
 
-            <form @submit.prevent="handlePost" class="relative">
-                <textarea v-model="comment" id="comment" placeholder="Post a comment" class="w-full p-2 resize-none rounded-xl focus:outline-slate-700"></textarea>
-                <button type="submit" class="flex ml-auto border bg-white rounded-xl mt-2 py-[1] px-2 text-slate-500 cursor-pointer">Post</button>
-            </form>            
+                <div v-if="!isBeingEdited" class="col-start-1 col-span-2 row-span-2 border border-darkCoffee rounded-xl p-4 row-start-1 gap-x-4">
+
+                    <div class="">
+
+                        <p class="text-5xl">{{ ticketStore.ticketInView?.title }}</p>
+                        <p class="text-slate-500 mt-4">Created By: {{ ticketStore.ticketInView?.creator.name }}</p> 
+
+                    </div>
+
+                    <div class="mt-10">                    
+                        <p class="text-xl font-bold">Description</p>
+                        <p class="mt-2 ml-10">{{ ticketStore.ticketInView?.description }}</p>
+                    </div>    
+
+                </div>
+
+                <button         
+                v-if="authStore.user?.role === 'agent' || authStore.user?.role === 'admin' && !isBeingEdited && !deleteMessage"
+                class="flex col-start-3 row-start-1 ml-auto mb-auto text-darkCoffee cursor-pointer rounded-xl"
+                @click="showForm"        
+                >
+                    <FilePenLine/>
+                </button>
+
+                <div class="col-start-3 row-start-2 justify-self-center text-2xl">
+
+                    <div class="flex items-center">
+                        <p>Status:</p>
+                        <p class="ml-2 font-mono text-lg">{{ ticketStore.ticketInView?.status }}</p>
+                    </div>
+
+                    <div class="flex items-center">
+                        <p>Priority:</p>
+                        <p class="ml-2 font-mono text-lg">{{ ticketStore.ticketInView?.priority }}</p>
+                    </div>
+
+                    <div class="flex items-center">
+                        <p>Assigned to:</p>
+                        <p class="ml-2 font-mono text-lg">{{ ticketStore.ticketInView?.assignee?.name ?? 'Unassigned' }}</p>
+                    </div>
+                    
+                </div>
+
+            </div>
+
+            <!-- Editing form -->
+
+            <form v-if="isBeingEdited === true && !deleteMessage" @submit.prevent="handleEdit" class="">
+                
+                <div class="flex">
+
+                    <select class="mt-4 focus:outline-none" id="status" v-model="status">          
+                        <option :value="null" disabled selected>Set status (default: open)</option>          
+                        <option class="text-white bg-green-500" value="open">open</option>
+                        <option class="text-white bg-yellow-500" value="in_progress">in_progress</option>
+                        <option class="text-white bg-orange-500" value="resolved">resolved</option>
+                        <option class="text-white bg-red-500" value="closed">closed</option>
+                    </select>
+
+                </div>
+
+                <div class="flex">
+
+                    <select class="mt-4 focus:outline-none" id="priority" v-model="priority">                              
+                        <option :value="null" disabled selected>Set priority (default: medium)</option>          
+                        <option class="text-white bg-green-500" value="low">low</option>
+                        <option class="text-white bg-yellow-500" value="medium">medium</option>
+                        <option class="text-white bg-orange-500" value="high">high</option>
+                        <option class="text-white bg-red-500" value="urgent">urgent</option>
+                    </select>
+
+                </div>
+
+                <div class="flex my-4 items-center">
+                    <label for="assigned_to">Assigned to</label>
+                    <input type="text" id="assigned_to" v-model="assigned_to" placeholder="Enter assignee's id" class="ml-2 p-2 border border-blue-500 rounded-xl bg-white focus:outline-blue-500 rounded-xl">            
+                </div>
+
+                <div class="flex gap-x-4">
+                    <button v-on:click="isBeingEdited = false" class="relative flex text-white cursor-pointer bg-blue-500 rounded-xl p-2 hover:bg-blue-600">Cancel</button>
+                    <button type="submit" class="relative flex text-white cursor-pointer bg-blue-500 rounded-xl p-2 hover:bg-blue-600">Save</button>
+                </div>
+
+            </form>
+
+            <p v-if="successMessage" class="text-green-500">Ticket successfully updated</p>
+
+
+            <!-- Comment section -->
+
+            <p class="justify-self-center text-darkCoffee font-mono text-xl font-bold mt-10 mb-4">Comments</p>
+
+            <div class=" p-6 border border-darkCoffee rounded-xl mx-36 bg-white">
+
+                <div v-if="commentStore.comments.length > 0" class="grid grid-col-1 gap-y-10">
+
+                    <div v-for="comment in commentStore.comments" :key="comment.id" class="text-xl">
+                        
+                        <div class="flex">
+                            <p class="font-bold mr-2">{{ comment.creator.name }}</p>
+                            <adminIcon v-if="comment.creator.role == 'admin'"/>
+                            <agentIcon v-else/>
+                        </div>
+
+                        <p>{{ comment.body }}</p>
+                        
+                    </div>
+                </div>
+
+                <div v-else class="text-slate-500 justify-self-center">
+                    <p>No comments yet</p>
+                </div>
+
+                <form @submit.prevent="handlePost" class="mt-4 bg-slate-200 rounded-xl p-2">
+                    <textarea v-model="comment" id="comment" placeholder="Post a comment" class="w-full p-2 resize-none rounded-xl outline-none"></textarea>
+                    <button type="submit" class="flex ml-auto mr-2 border bg-darkCoffee text-white rounded-xl mt-2 py-[1] px-4 text-slate-500 cursor-pointer">Post</button>
+                </form>            
+                
+            </div>
             
         </div>
-        
+
     </div>
+
 </template>

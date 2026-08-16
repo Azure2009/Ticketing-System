@@ -14,8 +14,6 @@
 
     const isFiltered = ref(false)
 
-    const filteredTickets = ref(null)
-
     onMounted(async () => { // render muna lahat ng tickets pag ka load ng page
 
         await ticketStore.index(status.value)
@@ -69,7 +67,7 @@
                     renderTicketsByStatus()
 
                 }"
-                class="px-3 py-1.5 text-sm rounded-md hover:bg-slate-100"
+                class="px-3 py-1.5 text-sm rounded-md cursor-pointer hover:bg-slate-200"
             >
                 {{ option }}
             </button>
