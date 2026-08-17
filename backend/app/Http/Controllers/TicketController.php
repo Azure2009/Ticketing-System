@@ -123,7 +123,8 @@ class TicketController extends Controller
 
         ]);
 
-        return response()->json($ticket);
+        return response()->json($ticket->load('creator', 'assignee')); // Note: Ang na-update lang ay yung status, priority, at assigned_to column ng tickets table, hindi kasama yung connected na assignee na nasa users table
+        //so kailangan gumamit ng load function(eager loading ata tawag) para ma refetch yung bagong naka assign para sa ticket na yun. Dinagdag ko na rin yung creator for safety
 
     }
 

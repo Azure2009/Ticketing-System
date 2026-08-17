@@ -7,6 +7,14 @@
     import { useCommentStore } from '../stores/comment'
     import { FilePenLine, User as agentIcon, UserShield as adminIcon } from '@lucide/vue'
 
+    type statusVerdict = 'open' | 'in progress' | 'resolved' | 'closed'
+
+    type priorityVerdict = 'low' | 'medium' | 'high' | 'urgent'
+
+    let statusOptions = [ 'open', 'in progress', 'resolved', 'closed' ]
+
+    let priorityOptions = [ 'low', 'medium', 'high', 'urgent' ]
+
     const isBeingEdited = ref(false)
 
     const ticketStore = useTicketStore()
@@ -18,8 +26,8 @@
 
     const id = Number(url.params.id)
 
-    const status = ref(null)
-    const priority = ref(null)
+    const status = ref<null | string>(null)
+    const priority = ref<null | string >(null)
     const assigned_to = ref('')
     const successMessage = ref('')
     const deleteMessage = ref('')
@@ -38,6 +46,12 @@
             await ticketStore.update(id, assignee_id, priority.value, status.value)
 
             successMessage.value = 'Ticket successfully updated.'
+
+            setTimeout(() => {
+
+                successMessage.value = ''
+
+            }, 3000)
 
         } catch (error: any) {
 
@@ -82,12 +96,13 @@
             await commentStore.store(comment.value, id)
             await commentStore.index(id)
             comment.value = ''
+            
 
         }
         
        } catch (error: any) {
 
-            console.log(error)
+            error.response?.data?.message ?? 'Cannot post ticket'
 
        }
 
@@ -98,9 +113,7 @@
 
         await ticketStore.show(id)
         await commentStore.index(id)
-
-        console.log(deleteMessage.value)
-
+        
     })
 
 </script>
@@ -116,7 +129,7 @@
         <div v-if="ticketStore.ticketInView" class="relative p-6">
 
             <button         
-            v-if="authStore.user?.role === 'admin' && !isBeingEdited && !deleteMessage"
+            v-if="authStore.user?.role === 'admin' && !deleteMessage"
             class="flex mb-4 text-slate-500 cursor-pointer border border-slate-500  rounded-xl p-2 hover:text-darkCoffee hover:border-darkCoffee hover:transition-[text,border] duration-200 "
             @click="handleDelete"        
             >
@@ -129,9 +142,9 @@
 
             <!-- Ticket display ko -->
 
-            <div v-if="!isBeingEdited" class="grid grid-cols-3 border border-darkCoffee rounded-xl mx-36 mb-6 p-4 bg-white">
+            <div class=" grid grid-cols-3 border border-darkCoffee rounded-xl mx-36 mb-6 p-4 bg-white">
 
-                <div v-if="!isBeingEdited" class="col-start-1 col-span-2 row-span-2 border border-darkCoffee rounded-xl p-4 row-start-1 gap-x-4">
+                <div class="col-start-1 col-span-2 row-span-2 border border-darkCoffee rounded-xl p-4 row-start-1 gap-x-4">
 
                     <div class="">
 
@@ -155,7 +168,7 @@
                     <FilePenLine/>
                 </button>
 
-                <div class="col-start-3 row-start-2 justify-self-center text-2xl">
+                <div v-if="!isBeingEdited" class="gap-y-4 col-start-3 row-start-2 justify-self-center text-2xl">
 
                     <div class="flex items-center">
                         <p>Status:</p>
@@ -166,58 +179,66 @@
                         <p>Priority:</p>
                         <p class="ml-2 font-mono text-lg">{{ ticketStore.ticketInView?.priority }}</p>
                     </div>
+                    
+                    <p>Assigned to:</p>
+                    <p class="font-mono text-lg">{{ ticketStore.ticketInView?.assignee?.name ?? 'Unassigned' }}</p>                        
+                    
 
-                    <div class="flex items-center">
-                        <p>Assigned to:</p>
-                        <p class="ml-2 font-mono text-lg">{{ ticketStore.ticketInView?.assignee?.name ?? 'Unassigned' }}</p>
+                    <p v-if="successMessage" class="text-green-500">Ticket successfully updated</p>
+                    
+                </div>
+
+                <!-- Kapag ineedit ng user -->
+
+                <div v-if="isBeingEdited" class="col-start-3 row-start-1 ml-auto text-2xl transition-opacity duration-200">
+
+                    <div class="flex">
+                        <button @click="isBeingEdited = false">Cancel</button>
+                        <button @click="handleEdit" class="ml-2">Save</button>
                     </div>
+
+                </div>
+
+                <div v-if="isBeingEdited" class="relative col-start-3 row-start-2 justify-self-center text-2xl transition-opacity duration-200">
+
+                    <p>Set status</p>
+
+                    <div class="flex rounded-xl p-2 justify-evenly text-xs">
+                                                                                    
+                        <button
+                            v-for="option in statusOptions"
+                            :key="option"
+                            type="button"
+                            class="rounded-xl hover:bg-slate-200 p-2"
+                        >
+                            {{ option }}
+                        </button>
+
+                        
+
+                    </div>
+
+                    <p>Set priority</p>
+                            
+                    <div class="flex rounded-xl p-2 justify-evenly text-xs">
+                        <button
+                            v-for="option in priorityOptions"
+                            :key="option"
+                            type="button"
+                            
+                            class="rounded-xl hover:bg-slate-200 p-2"
+                        >
+                            {{ option }}
+                        </button>
+
+                    </div>
+                    
+                    <p>Assigned to:</p>
+                    <input v-model="assigned_to" type="text" placeholder="Enter assignee's id" class="outline outline-black rounded-xl p-2">                    
                     
                 </div>
 
             </div>
-
-            <!-- Editing form -->
-
-            <form v-if="isBeingEdited === true && !deleteMessage" @submit.prevent="handleEdit" class="">
-                
-                <div class="flex">
-
-                    <select class="mt-4 focus:outline-none" id="status" v-model="status">          
-                        <option :value="null" disabled selected>Set status (default: open)</option>          
-                        <option class="text-white bg-green-500" value="open">open</option>
-                        <option class="text-white bg-yellow-500" value="in_progress">in_progress</option>
-                        <option class="text-white bg-orange-500" value="resolved">resolved</option>
-                        <option class="text-white bg-red-500" value="closed">closed</option>
-                    </select>
-
-                </div>
-
-                <div class="flex">
-
-                    <select class="mt-4 focus:outline-none" id="priority" v-model="priority">                              
-                        <option :value="null" disabled selected>Set priority (default: medium)</option>          
-                        <option class="text-white bg-green-500" value="low">low</option>
-                        <option class="text-white bg-yellow-500" value="medium">medium</option>
-                        <option class="text-white bg-orange-500" value="high">high</option>
-                        <option class="text-white bg-red-500" value="urgent">urgent</option>
-                    </select>
-
-                </div>
-
-                <div class="flex my-4 items-center">
-                    <label for="assigned_to">Assigned to</label>
-                    <input type="text" id="assigned_to" v-model="assigned_to" placeholder="Enter assignee's id" class="ml-2 p-2 border border-blue-500 rounded-xl bg-white focus:outline-blue-500 rounded-xl">            
-                </div>
-
-                <div class="flex gap-x-4">
-                    <button v-on:click="isBeingEdited = false" class="relative flex text-white cursor-pointer bg-blue-500 rounded-xl p-2 hover:bg-blue-600">Cancel</button>
-                    <button type="submit" class="relative flex text-white cursor-pointer bg-blue-500 rounded-xl p-2 hover:bg-blue-600">Save</button>
-                </div>
-
-            </form>
-
-            <p v-if="successMessage" class="text-green-500">Ticket successfully updated</p>
-
 
             <!-- Comment section -->
 
@@ -233,6 +254,7 @@
                             <p class="font-bold mr-2">{{ comment.creator.name }}</p>
                             <adminIcon v-if="comment.creator.role == 'admin'"/>
                             <agentIcon v-else/>
+                            <p class="ml-2 text-slate-500">{{ new Date(comment.created_at).toLocaleString() }}</p>
                         </div>
 
                         <p>{{ comment.body }}</p>

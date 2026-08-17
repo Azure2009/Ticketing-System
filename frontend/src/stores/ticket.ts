@@ -31,7 +31,7 @@ export const useTicketStore = defineStore('ticket', () => {
 
     async function update(ticket_id: number, assignee_id: null | string, priority: null | string, status: null | string) {
 
-        ticket.value = await apiUpdate(ticket_id, assignee_id, priority, status)
+        ticketInView.value = await apiUpdate(ticket_id, assignee_id, priority, status)
 
     }
 

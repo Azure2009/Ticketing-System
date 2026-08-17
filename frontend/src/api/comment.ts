@@ -17,8 +17,6 @@ export async function store(body: string, id: number): Promise<Comment> {
 
     })
 
-    console.log(res.data)
-
     return res.data
 
 }

@@ -54,7 +54,7 @@
             <div
             class="absolute left-full w-100 top-0 hidden group-hover:flex
                     items-center justify-evenly -translate-y-2 gap-x-2 bg-white border border-slate-200
-                    rounded-lg p-2 shadow-md"
+                    rounded-xl p-2 shadow-md"
             >
             <button
                 v-for="option in options"
@@ -93,7 +93,7 @@
             <div v-for="ticket in ticketStore.tickets" :key="ticket.id" class="relative group">
                 <RouterLink :to="{name: 'ticket-detail', params: { id: ticket.id }}" class="grid grid-cols-5 justify-items-center items-center p-2 text-slate-500 group-hover:bg-darkCoffee rounded-xl group-hover:text-white">    
                     <p class="col-start-1">{{ ticket.title }}</p>
-                    <p v-if="ticket.assignee" class="bg-darkSpruce rounded-xl col-start-2">{{ ticket.assignee.name }}</p>
+                    <p v-if="ticket.assignee" class="rounded-xl col-start-2">{{ ticket.assignee.name }}</p>
                     <p v-else class="rounded-xl col-start-2 p-2">Unassigned</p>
                     <p class="mr-4 col-start-3">{{ ticket.priority }}</p>
                     <p class="col-start-4">{{ ticket.creator.name }}</p>

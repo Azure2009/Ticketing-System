@@ -5,6 +5,7 @@ export interface Comment {
     ticket_id: number,
     body: string
     creator: { id: number, name: string, email: string, role: string }, 
-    ticket: { id: number, title: string}
+    ticket: { id: number, title: string},
+    created_at: string 
 
 }
