@@ -2,9 +2,22 @@
 
 import { useRouter, RouterLink, RouterView } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
+import { ref } from 'vue'
 
 const router = useRouter()
 const authStore = useAuthStore()
+
+const promptLogoutConfirmation = ref(false)
+
+const logoutconfirmed = ref(false)
+
+function capitalizeFirstLetter(role: string): string {
+
+  const role_title = role.charAt(0).toUpperCase() + role.slice(1)  
+
+  return role_title
+
+}
 
 async function handleLogout() {
         
@@ -29,8 +42,8 @@ async function handleLogout() {
   <nav class="relative flex top-0 w-full h-10 bg-everGreen p-6 items-center text-white">
 
     <div class="flex gap-x-4 font-mono">
-    <span>Ticketing System</span>
-    <span>|</span>
+    <span class="cursor-pointer" v-on:click="router.push({ name: 'main' })">Ticketing System</span>
+    <span class="pointer-events-none">|</span>
     <RouterLink
     :to="{ name: 'main' }"
     active-class="underline decoration-darkSpruce underline-offset-4"
@@ -48,12 +61,33 @@ async function handleLogout() {
 
     </div>
 
-    <span class="ml-auto mx-4">{{ authStore.user?.name }}</span>
-    <button class="cursor-pointer outline outline-darkSpruce rounded-xl p-2" v-on:click="handleLogout">Logout</button>
+    <span class="ml-auto mx-4 pointer-events-none">{{ authStore.user!.name }} ({{ capitalizeFirstLetter(authStore.user!.role) }})</span>
+    <button class="outline outline-darkSpruce rounded-xl p-2 hover:bg-darkSpruce transition-bg duration-200" v-on:click="promptLogoutConfirmation =true">Logout</button>
 
   </nav>
 
+  <div v-if="promptLogoutConfirmation" class="fixed inset-0 flex items-center justify-center z-60 text-white text-3xl mb-40 font-mono">
 
+      <div class="bg-everGreen p-4 rounded-xl">
+        <p>Are you sure you want to logout?</p>
+
+        <div class="flex justify-self-center mt-10 gap-14">
+        <button @click="()=>{
+          logoutconfirmed = false
+          promptLogoutConfirmation = false
+          }"
+          class="p-2 hover:bg-darkSpruce rounded-xl"
+          >No</button>
+        <button 
+        @click="handleLogout"
+        class="p-2 hover:bg-darkSpruce rounded-xl"
+        >Yes</button>
+
+        </div>
+      </div>
+      
+
+    </div>
 
   <main>
   <RouterView/>

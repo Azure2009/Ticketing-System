@@ -37,10 +37,14 @@
 </script>
 <template>
 
-    <div class="mx-50 my-20">
+    <!-- pointer events to none ang loader para kahit nasa top layer siya di niya ma bloblock yung mga nasa ilalim -->
+        
+    <p v-if="ticketStore.tickets.length === 0" class="fixed inset-0 flex items-center justify-center z-50 pointer-events-none text-black text-3xl">Loading tickets...</p> <!-- Truthy ang array kahit empty pa yung loob kaya hindi gagana yung condition na !ticketStore.tickets -->
 
+    <div class="mx-50 my-20" v-else-if="ticketStore.tickets.length > 0">
+ 
         <div v-if="isFiltered" class="relative group ml-2 inline-block mr-2">
-        <FunnelX @click="resetFilter" class="translate-y-px text-slate-400 cursor-pointer"/>
+        <FunnelX @click="resetFilter" class="translate-y-px text-slate-400 "/>
         <div class="absolute flex border-2 w-14 border-slate-300 bg-black text-white text-[10px] px-px -translate-x-14 -translate-y-12 opacity-0 invisible group-hover:opacity-100 visible group-hover:transition-opacity duration-200">Reset filter</div>
         </div>
 
@@ -67,7 +71,7 @@
                     renderTicketsByStatus()
 
                 }"
-                class="px-3 py-1.5 text-sm rounded-md cursor-pointer hover:bg-slate-200"
+                class="px-3 py-1.5 text-sm rounded-md  hover:bg-slate-200"
             >
                 {{ option }}
             </button>
@@ -76,11 +80,11 @@
 
         </div>
 
-        <p v-if="ticketStore.tickets.length === 0">Loading tickets...</p> <!-- Truthy ang array kahit empty pa yung loob kaya hindi gagana yung condition na !ticketStore.tickets -->
+        
+        
+        <div class="grid grid-cols-1 mt-2">
 
-        <div class="grid grid-cols-1 mt-2" v-else-if="ticketStore.tickets.length > 0">
-
-            <div class="grid grid-cols-5 justify-items-center border border-darkCoffee rounded-xl p-2">
+            <div class="grid grid-cols-5 justify-items-center border border-darkCoffee text-darkCoffee rounded-xl pointer-events-none p-2">
 
                 <p>Title</p>
                 <p>Assignee</p>
@@ -91,7 +95,7 @@
             </div>
             
             <div v-for="ticket in ticketStore.tickets" :key="ticket.id" class="relative group">
-                <RouterLink :to="{name: 'ticket-detail', params: { id: ticket.id }}" class="grid grid-cols-5 justify-items-center items-center p-2 text-slate-500 group-hover:bg-darkCoffee rounded-xl group-hover:text-white">    
+                <RouterLink :to="{name: 'ticket-detail', params: { id: ticket.id }}" class="grid grid-cols-5 justify-items-center items-center p-2 cursor-default text-slate-500 group-hover:bg-darkCoffee rounded-xl group-hover:text-white">    
                     <p class="col-start-1">{{ ticket.title }}</p>
                     <p v-if="ticket.assignee" class="rounded-xl col-start-2">{{ ticket.assignee.name }}</p>
                     <p v-else class="rounded-xl col-start-2 p-2">Unassigned</p>

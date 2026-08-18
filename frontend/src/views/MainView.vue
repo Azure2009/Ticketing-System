@@ -1,20 +1,19 @@
 <script setup lang="ts">
 
     import { ref } from 'vue'
-    import { useAuthStore } from '../stores/auth.ts'
     import { useTicketStore } from '../stores/ticket.ts'
-    import { useRouter } from 'vue-router'
+    import { ChevronDown } from '@lucide/vue'
 
-    const authStore = useAuthStore()
     const ticketStore = useTicketStore()
-
-    const router = useRouter()
 
     const title = ref('')
     const description = ref('')
     const priority = ref(null)
     const successMessage = ref('')
     const errorMessage = ref('')
+    const isSettingPriority = ref(false)
+
+    let priorityOptions = [ 'low', 'medium', 'high', 'urgent' ]
 
     async function handleTicketCreation() {
 
@@ -64,19 +63,28 @@
 
                     </div>
                     
-                    <div class="row-start-3 justify-start">
+                    <div class="group row-start-3 justify-start mr-auto" v-on:mouseenter="isSettingPriority = true" v-on:mouseleave="isSettingPriority = false">
 
-                            <select class="mt-4 focus:outline-none" id="priority" v-model="priority">          
-                                <option :value="null" disabled selected>Set priority (default: medium)</option>          
-                                <option class="text-white bg-green-500" value="low">low</option>
-                                <option class="text-white bg-yellow-500" value="medium">medium</option>
-                                <option class="text-white bg-orange-500" value="high">high</option>
-                                <option class="text-white bg-red-500" value="urgent">urgent</option>
-                            </select>
-                
+                        <div class="flex">
+                            <p>{{priority ?? 'Set priority'}}</p>
+                            <ChevronDown class="-rotate-90 group-hover:rotate-0 transition-rotate duration-200"/>
+                        </div>
+
+                        <div v-if="isSettingPriority" class="absolute grid bg-darkCoffee text-slate-300 p-2 rounded-xl w-25">
+                            <button 
+                            v-for="option in priorityOptions"
+                            class="flex hover:text-white"
+                            >{{ option }}
+                            </button>
+                        </div>
+
                     </div>
 
+                    
+
                 </div>
+
+                
 
                 <p class="relative flex text-green-500" v-if="successMessage">{{ successMessage }}</p>
                 <p class="relative flex text-red-500" v-if="errorMessage">{{ errorMessage }}</p>

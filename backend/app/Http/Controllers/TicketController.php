@@ -109,7 +109,7 @@ class TicketController extends Controller
 
         $validated = $request->validate([
 
-            'status' => ['nullable', Rule::in(['open', 'in_progress', 'resolved', 'closed'])],
+            'status' => ['nullable', Rule::in(['open', 'in progress', 'resolved', 'closed'])],
             'priority' => ['nullable', Rule::in(['low', 'medium', 'high', 'urgent'])],
             'assignee_id' => ['nullable', Rule::exists('users', 'id')]
 

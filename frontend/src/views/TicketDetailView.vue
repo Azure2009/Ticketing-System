@@ -7,10 +7,6 @@
     import { useCommentStore } from '../stores/comment'
     import { FilePenLine, User as agentIcon, UserShield as adminIcon } from '@lucide/vue'
 
-    type statusVerdict = 'open' | 'in progress' | 'resolved' | 'closed'
-
-    type priorityVerdict = 'low' | 'medium' | 'high' | 'urgent'
-
     let statusOptions = [ 'open', 'in progress', 'resolved', 'closed' ]
 
     let priorityOptions = [ 'low', 'medium', 'high', 'urgent' ]
@@ -53,9 +49,15 @@
 
             }, 3000)
 
-        } catch (error: any) {
+        } catch {
 
-            errorMessage.value = error.response?.data?.message
+            errorMessage.value = 'Ticket update failed. Please try again.'
+
+            setTimeout(() => {
+
+                errorMessage.value = ''
+
+            }, 3000)
 
         }
 
@@ -84,7 +86,13 @@
     }
 
     function showForm() {
+
         isBeingEdited.value = true
+
+        status.value = ticketStore.ticketInView!.status
+
+        priority.value = ticketStore.ticketInView!.priority
+
     }
 
     async function handlePost() {
@@ -121,6 +129,7 @@
 <template>
 
     <div class="bg-slate-100">
+        <!-- i configure ang pointer events to none ng loader para kahit nasa top layer siya di niya ma bloblock yung mga nasa ilalim -->
         <div class="fixed inset-0 flex items-center justify-center z-50 pointer-events-none text-black text-3xl">
             <div v-if="!ticketStore.ticketInView && !deleteMessage">Loading please wait...</div>
         </div>
@@ -130,7 +139,7 @@
 
             <button         
             v-if="authStore.user?.role === 'admin' && !deleteMessage"
-            class="flex mb-4 text-slate-500 cursor-pointer border border-slate-500  rounded-xl p-2 hover:text-darkCoffee hover:border-darkCoffee hover:transition-[text,border] duration-200 "
+            class="flex mb-4 text-slate-500 cursor-pointer border border-slate-500  rounded-xl p-2 hover:text-red-500 hover:border-red-500 hover:transition-[text,border] duration-200 "
             @click="handleDelete"        
             >
 
@@ -161,7 +170,7 @@
                 </div>
 
                 <button         
-                v-if="authStore.user?.role === 'agent' || authStore.user?.role === 'admin' && !isBeingEdited && !deleteMessage"
+                v-if="(authStore.user?.role === 'agent' || authStore.user?.role === 'admin') && !isBeingEdited && !deleteMessage"
                 class="flex col-start-3 row-start-1 ml-auto mb-auto text-darkCoffee cursor-pointer rounded-xl"
                 @click="showForm"        
                 >
@@ -184,7 +193,8 @@
                     <p class="font-mono text-lg">{{ ticketStore.ticketInView?.assignee?.name ?? 'Unassigned' }}</p>                        
                     
 
-                    <p v-if="successMessage" class="text-green-500">Ticket successfully updated</p>
+                    <p v-if="successMessage" class="text-green-500">{{ successMessage }}</p>
+                    <p v-else-if="errorMessage" class="text-xl text-red-500">{{ errorMessage }}</p>
                     
                 </div>
 
@@ -193,8 +203,17 @@
                 <div v-if="isBeingEdited" class="col-start-3 row-start-1 ml-auto text-2xl transition-opacity duration-200">
 
                     <div class="flex">
-                        <button @click="isBeingEdited = false">Cancel</button>
-                        <button @click="handleEdit" class="ml-2">Save</button>
+                        <button @click="() => {
+
+                            isBeingEdited = false
+                            
+                        }"
+                        class="decoration-darkCoffee decoration-2 underline-offset-2 hover:underline"
+                        >
+                        Cancel
+                        </button>
+
+                        <button @click="handleEdit" class="ml-4 decoration-darkCoffee decoration-2 underline-offset-2 hover:underline">Save</button>
                     </div>
 
                 </div>
@@ -209,12 +228,13 @@
                             v-for="option in statusOptions"
                             :key="option"
                             type="button"
-                            class="rounded-xl hover:bg-slate-200 p-2"
-                        >
+                            @click="status = option"                            
+                            v-bind:class="[
+                                'rounded-xl p-2 transition-colors duration-150',
+                                status === option? 'bg-darkCoffee text-white' : 'hover:bg-slate-200'
+                            ]">
                             {{ option }}
                         </button>
-
-                        
 
                     </div>
 
@@ -225,16 +245,18 @@
                             v-for="option in priorityOptions"
                             :key="option"
                             type="button"
-                            
-                            class="rounded-xl hover:bg-slate-200 p-2"
-                        >
+                            @click="priority = option"                            
+                            v-bind:class="[
+                                'rounded-xl p-2 transition-colors duration-150',
+                                priority === option ? 'bg-darkCoffee text-white' : 'hover:bg-slate-200'
+                            ]">                    
                             {{ option }}
                         </button>
 
                     </div>
                     
                     <p>Assigned to:</p>
-                    <input v-model="assigned_to" type="text" placeholder="Enter assignee's id" class="outline outline-black rounded-xl p-2">                    
+                    <input v-model="assigned_to" type="text" placeholder="Enter assignee ID"  class="outline outline-black rounded-xl p-2">                    
                     
                 </div>
 
