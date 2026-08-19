@@ -40,11 +40,13 @@
 </script>
 
 <template>
-<div class="p-4">   
+<div class="fixed flex inset-0 justify-center items-center">   
 
-  <div>
-    <p>Register</p>
-    <form class="grid grid-cols-1 gap-4 relative p-4" @submit.prevent="handleRegistration">
+  <div class="grid grid-cols-1 gap-4 relative p-4">
+    
+    <form class="" @submit.prevent="handleRegistration">
+
+      <p>Register</p>
 
       <div class="row-start-1">
         <label class="mr-2" for="register_name">Name</label>

@@ -135,11 +135,11 @@
         </div>
 
 
-        <div v-if="ticketStore.ticketInView" class="relative p-6">
+        <div v-if="ticketStore.ticketInView" class="relative p-6 cursor-default">
 
             <button         
             v-if="authStore.user?.role === 'admin' && !deleteMessage"
-            class="flex mb-4 text-slate-500 cursor-pointer border border-slate-500  rounded-xl p-2 hover:text-red-500 hover:border-red-500 hover:transition-[text,border] duration-200 "
+            class="flex mb-4 text-slate-500 border border-slate-500  rounded-xl p-2 hover:text-red-500 hover:border-red-500 hover:transition-[text,border] duration-200 "
             @click="handleDelete"        
             >
 
@@ -169,13 +169,19 @@
 
                 </div>
 
-                <button         
-                v-if="(authStore.user?.role === 'agent' || authStore.user?.role === 'admin') && !isBeingEdited && !deleteMessage"
-                class="flex col-start-3 row-start-1 ml-auto mb-auto text-darkCoffee cursor-pointer rounded-xl"
-                @click="showForm"        
-                >
-                    <FilePenLine/>
-                </button>
+                
+                <div class="flex col-start-3 row-start-1">
+                    
+                    <button         
+                    v-if="(authStore.user?.role === 'agent' || authStore.user?.role === 'admin') && !isBeingEdited && !deleteMessage"
+                    class="group flex ml-auto mb-auto text-darkCoffee cursor-default rounded-xl p-2 hover:text-white transition-text duration-200 hover:bg-darkCoffee transition-bg duration-200"
+                    @click="showForm"        
+                    >
+                        <FilePenLine/>
+                        <div class="absolute pointer-events-none translate-x-8 flex border-2 w-42 border-slate-300 bg-black text-white text-[10px] px-px opacity-0 invisible group-hover:opacity-100 visible group-hover:transition-opacity duration-200">Set status, priority, and assignee id</div>
+                    </button>
+
+                </div>
 
                 <div v-if="!isBeingEdited" class="gap-y-4 col-start-3 row-start-2 justify-self-center text-2xl">
 
@@ -198,7 +204,7 @@
                     
                 </div>
 
-                <!-- Kapag ineedit ng user -->
+                <!-- Kapag ineedit ng user ko -->
 
                 <div v-if="isBeingEdited" class="col-start-3 row-start-1 ml-auto text-2xl transition-opacity duration-200">
 

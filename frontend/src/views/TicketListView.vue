@@ -39,7 +39,15 @@
 
     <!-- pointer events to none ang loader para kahit nasa top layer siya di niya ma bloblock yung mga nasa ilalim -->
         
-    <p v-if="ticketStore.tickets.length === 0" class="fixed inset-0 flex items-center justify-center z-50 pointer-events-none text-black text-3xl">Loading tickets...</p> <!-- Truthy ang array kahit empty pa yung loob kaya hindi gagana yung condition na !ticketStore.tickets -->
+    <p v-if="ticketStore.tickets.length === 0 && !isFiltered" class="fixed inset-0 flex items-center justify-center z-50 pointer-events-none text-black text-3xl">Loading tickets...</p> <!-- Truthy ang array kahit empty pa yung loob kaya hindi gagana yung condition na !ticketStore.tickets -->
+
+    <div v-if="ticketStore.tickets.length === 0 && isFiltered" class="fixed inset-0 flex items-center justify-center">
+
+        <div>
+            <p class="pointer-events-none text-black text-3xl ">No tickets available for this status</p> 
+            <button @click="resetFilter" class="flex mt-2 justify-self-center text-slate-500 hover:underline decoration-darkSpruce underline-offset-2">Reset</button>
+        </div>
+    </div>
 
     <div class="mx-50 my-20" v-else-if="ticketStore.tickets.length > 0">
  

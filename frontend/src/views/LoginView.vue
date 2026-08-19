@@ -35,30 +35,36 @@
 </script>
 
 <template>
-<div class="p-4">   
-  <div>
-    <p class="">Log in</p>
-    <form class="grid grid-cols-1 gap-4 relative p-4" @submit.prevent="handleSubmit">
+<div class="fixed flex inset-0 justify-center items-center">   
+  <div class="bg-everGreen inset-shadow-sm inset-shadow-darkSpruce/100 text-white p-4 rounded-xl text-2xl justify-center grid grid-cols-1 gap-4 relative p-10">
+
+    <div class="flex w-full border-b-2 pb-4">
+
+      <p class="text-5xl pointer-events-none">Log in</p>
+
+    </div>
+
+    <form class="row-start-2 grid grid-cols-1 gap-y-4" @submit.prevent="handleSubmit">
       
-    <div class="row-start-1">
-      <label class="mr-2" for="email">Email:</label>
-      <input autocomplete="off" class="border-2 border-slate-300 rounded-xl outline-none focus:border-blue-500 px-2 py-1" id="email" type="email" v-model="email" required/>
-    </div>
+      <div class="row-start-1">
+        <label class="mr-2" for="email">Email:</label>
+        <input autocomplete="off" class="w-full border-2 border-slate-300 rounded-xl outline-none focus:border-darkSpruce px-2 py-1" id="email" type="email" v-model="email" required/>
+      </div>
 
-    <div class="row-start-2">
-      <label class="mr-2" for="password">Password:</label>
-      <input autocomplete="off" class="border-2 border-slate-300 rounded-xl outline-none focus:border-blue-500 px-2 py-1" id="password" type="password" v-model="password" required/>
-    </div>
+      <div class="row-start-2">
+        <label class="mr-2" for="password">Password:</label>
+        <input autocomplete="off" class="w-full border-2 border-slate-300 rounded-xl outline-none focus:border-darkSpruce px-2 py-1" id="password" type="password" v-model="password" required/>
+      </div>
 
-    <div class="row-start-3">
-    <button class="cursor-pointer bg-blue-500 rounded-xl p-2" type="submit">Log In</button>
-    </div>
+      <div class="row-start-3 flex justify-items-center">
+        <button type="submit" class="outline outline-darkSpruce rounded-xl p-2 hover:bg-darkSpruce transition-bg duration-200">Log In</button>
+      </div>
 
-    <p class="flex text-red-400" v-if="errorMessage">{{ errorMessage }}</p>
+      <p class="flex text-red-400" v-if="errorMessage">{{ errorMessage }}</p>
     
     </form>
 
-    <p>Don't have an account? Register <router-link to="/register" class="text-blue-500">here</router-link></p>
+    <p>Don't have an account? Register <router-link to="/register" class="text-darkSpruce">here</router-link></p>
 
   </div>
 </div>
