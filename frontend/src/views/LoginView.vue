@@ -64,7 +64,10 @@
     
     </form>
 
-    <p>Don't have an account? Register <router-link to="/register" class="text-darkSpruce">here</router-link></p>
+    <div class="flex">
+      <p class="pointer-events-none">Don't have an account? Register</p>
+      <router-link to="/register" class="ml-2 text-darkSpruce">here</router-link>
+    </div>
 
   </div>
 </div>

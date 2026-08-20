@@ -178,7 +178,7 @@
                     @click="showForm"        
                     >
                         <FilePenLine/>
-                        <div class="absolute pointer-events-none translate-x-8 flex border-2 w-42 border-slate-300 bg-black text-white text-[10px] px-px opacity-0 invisible group-hover:opacity-100 visible group-hover:transition-opacity duration-200">Set status, priority, and assignee id</div>
+                        <div class="absolute pointer-events-none translate-x-10 flex border-2 w-42 border-slate-300 bg-black text-white text-[10px] px-px opacity-0 invisible group-hover:opacity-100 visible group-hover:transition-opacity duration-200">Set status, priority, and assignee id</div>
                     </button>
 
                 </div>
