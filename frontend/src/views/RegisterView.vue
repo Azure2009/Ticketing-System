@@ -3,7 +3,7 @@
   import { ref } from 'vue'
   import { useAuthStore } from '../stores/auth'
   import { useRouter } from 'vue-router'
-  import { LoaderCircle } from '@lucide/vue'
+  import { LoaderCircle, Home } from '@lucide/vue'
 
   const authStore = useAuthStore()
   const router = useRouter()
@@ -43,11 +43,16 @@
 </script>
 
 <template>
-<div class="fixed flex inset-0 justify-center items-center">   
+<div class="relative min-h-screen bg-everGreen p-4">
 
-  <router-link :to="{ name: 'login' }" class="absolute right-4 top-0 mr-6 mt-4 p-2 text-white bg-darkSpruce rounded-xl">Log in</router-link>
+  <div class="flex">
+    <div class="flex ml-auto bg-darkSpruce-darker text-white items-center rounded-xl gap-x-2 p-2">
+      <router-link :to="{ name: 'index' }"><button class="ml-auto bg-darkSpruce p-2 rounded-xl hover:bg-everGreen hover:transition-bg duration-200"><Home/></button></router-link>
+      <router-link :to="{ name: 'login' }"><button class="p-2 bg-darkSpruce rounded-xl hover:bg-everGreen hover:transition-bg duration-200">Log in</button></router-link>
+    </div>
+  </div>
 
-  <div class="bg-everGreen inset-shadow-sm inset-shadow-darkSpruce/100 text-white p-4 rounded-xl text-2xl justify-center grid grid-cols-1 gap-4 relative p-10">
+  <div class="bg-everGreen inset-shadow-sm inset-shadow-darkSpruce/100 text-white p-4 rounded-xl text-2xl grid grid-cols-1 gap-4 relative p-10 justify-self-center">
     
     <form class="row-start-2 grid grid-cols-1 gap-y-4" @submit.prevent="handleRegistration">
 

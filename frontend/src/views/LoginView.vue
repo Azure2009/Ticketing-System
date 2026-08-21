@@ -3,7 +3,7 @@
   import { ref } from 'vue'
   import { useAuthStore } from '../stores/auth'
   import { useRouter } from 'vue-router'
-  import { LoaderCircle } from '@lucide/vue';
+  import { LoaderCircle, Home } from '@lucide/vue';
 
   const AuthStore = useAuthStore();
   const Router = useRouter()
@@ -38,8 +38,16 @@
 </script>
 
 <template>
-<div class="fixed flex inset-0 justify-center items-center">   
-  <div class="bg-everGreen inset-shadow-sm inset-shadow-darkSpruce/100 text-white p-4 rounded-xl text-2xl justify-center grid grid-cols-1 gap-4 relative p-10">
+<div class="min-h-screen bg-everGreen p-4">
+  
+  <div class="flex justify-center">
+    <router-link :to="{ name: 'index' }" class="inline-flex">
+      <button class="text-white p-2 justify-self-center rounded-xl hover:bg-darkSpruce hover:transition-bg duration-200">
+        <Home/>
+      </button>
+    </router-link>
+  </div>
+  <div class="bg-everGreen inset-shadow-sm inset-shadow-darkSpruce/100 text-white p-4 rounded-xl text-2xl justify-self-center grid grid-cols-1 gap-4 relative p-10 mt-10">
 
     <div class="flex w-full border-b-2 pb-4">
 

@@ -35,7 +35,7 @@ const router = createRouter({
       path: '/',
       name: 'index',
       component: IndexView,
-      // redirect: '/login'
+      meta: { guestOnly: true }
     },
 
     {
@@ -68,7 +68,7 @@ router.beforeEach(async (to) => {
 
   } else if (to.meta.requiresAuth && !authStore.isLoggedIn) {
 
-    return { name: 'login' }
+    return { name: 'index' }
 
   }
 

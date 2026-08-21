@@ -128,7 +128,7 @@
 
 <template>
 
-    <div class="bg-slate-100">
+    <div class="min-h-screen bg-slate-100">
         <!-- i configure ang pointer events to none ng loader para kahit nasa top layer siya di niya ma bloblock yung mga nasa ilalim -->
         <div class="fixed inset-0 flex items-center justify-center z-50 pointer-events-none text-black text-3xl">
             <div v-if="!ticketStore.ticketInView && !deleteMessage">Loading please wait...</div>
