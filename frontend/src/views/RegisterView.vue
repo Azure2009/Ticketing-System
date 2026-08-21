@@ -3,6 +3,7 @@
   import { ref } from 'vue'
   import { useAuthStore } from '../stores/auth'
   import { useRouter } from 'vue-router'
+  import { LoaderCircle } from '@lucide/vue'
 
   const authStore = useAuthStore()
   const router = useRouter()
@@ -12,6 +13,7 @@
   const register_password = ref('')
   const password_confirmation = ref('')
   const register_errorMessage = ref('')
+  const isLoading = ref(false)
 
   async function handleRegistration() {
 
@@ -25,6 +27,7 @@
 
     try {
 
+      isLoading.value = true
       await authStore.register(register_name.value , register_email.value, register_password.value, password_confirmation.value)
       router.push({ name: 'main' })
 
@@ -78,7 +81,12 @@
         <button class="outline outline-darkSpruce rounded-xl p-2 hover:bg-darkSpruce transition-bg duration-200" type="submit">Register</button>
         <p class="text-slate-500 text-xs ml-2">note: ticketing system automatically logs you in once you have registered.</p>
       </div>
-      
+
+      <div v-if="isLoading" class="flex items-center text-slate-500">
+        <p class="text-base">Logging in</p>
+        <LoaderCircle class="ml-px scale-70 animate-spin"/>
+      </div>
+
       <p class="flex text-red-400" v-if="register_errorMessage">{{ register_errorMessage }}</p>
     
     </form>

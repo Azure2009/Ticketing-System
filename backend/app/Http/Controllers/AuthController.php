@@ -27,7 +27,9 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => $request->password
 
-        ]);
+        ]); // At this point, null palang si role, ang inaasikaso lang ni create() ay what you explicitly handed to it. Si postgres ang nag aasikaso nung default('requester')
+
+        $user->refresh(); // That is why kailangan natin ng re-read yung na create na model sa database para kasama yung role bago i login.
 
         Auth::login($user);
 

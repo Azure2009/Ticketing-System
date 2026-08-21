@@ -3,6 +3,7 @@
 import { useRouter, RouterLink, RouterView } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 import { ref, Transition } from 'vue'
+import { LoaderCircle } from '@lucide/vue'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -11,11 +12,15 @@ const promptLogoutConfirmation = ref(false)
 
 const logoutconfirmed = ref(false)
 
-function capitalizeFirstLetter(role: string): string {
+const isLoading = ref(false)
 
-  const role_title = role.charAt(0).toUpperCase() + role.slice(1)  
 
-  return role_title
+function capitalizeFirstLetter(x: string): string {
+
+
+  const y = x.charAt(0).toUpperCase() + x.slice(1)  
+
+  return y
 
 }
 
@@ -23,13 +28,15 @@ async function handleLogout() {
         
         try {
             
-            await authStore.logout()
+          isLoading.value = true
 
-            router.push({ name: 'index' })
+          await authStore.logout()
 
-        } catch (error: any) {
+          router.push({ name: 'index' })
 
-            error.response?.data?.message
+        } catch {
+
+          
             
         }
 
@@ -61,7 +68,7 @@ async function handleLogout() {
 
     </div>
 
-    <span class="ml-auto mx-4 pointer-events-none">{{ authStore.user!.name }} ({{ capitalizeFirstLetter(authStore.user!.role) }})</span>
+    <span class="ml-auto mx-4 pointer-events-none">{{ authStore.user?.name }} ({{ capitalizeFirstLetter(authStore.user!.role) }})</span>
     <button class="outline outline-darkSpruce rounded-xl p-2 hover:bg-darkSpruce transition-bg duration-200" v-on:click="promptLogoutConfirmation =true">Logout</button>
 
   </nav>
@@ -82,7 +89,7 @@ async function handleLogout() {
         
         <p>Are you sure you want to logout?</p>
 
-        <div class="flex justify-self-center mt-10 gap-14">
+        <div class="flex justify-self-center ml-4 mt-10 gap-14">
 
           <button @click="()=>{
             logoutconfirmed = false
@@ -95,6 +102,11 @@ async function handleLogout() {
           class="p-2 hover:bg-darkSpruce rounded-xl transition-bg duration-200"
           >Yes</button>
 
+        </div>
+
+        <div v-if="isLoading" class="mt-4 text-slate-500">
+          <p class="text-base justify-self-center">Logging out</p>
+          <LoaderCircle class="ml-px scale-70 justify-self-center animate-spin"/>
         </div>
 
       </div>

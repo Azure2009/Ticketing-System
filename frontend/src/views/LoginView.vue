@@ -3,6 +3,7 @@
   import { ref } from 'vue'
   import { useAuthStore } from '../stores/auth'
   import { useRouter } from 'vue-router'
+  import { LoaderCircle } from '@lucide/vue';
 
   const AuthStore = useAuthStore();
   const Router = useRouter()
@@ -10,11 +11,13 @@
   const email = ref('');
   const password = ref('');
   const errorMessage = ref('');
+  const isLoading = ref(false)
 
   async function handleSubmit() {
 
     try {
 
+      isLoading.value = true
       await AuthStore.login(email.value, password.value)
 
       console.log('Logged in successfully.')
@@ -58,6 +61,12 @@
 
       <div class="row-start-3 flex justify-items-center">
         <button type="submit" class="outline outline-darkSpruce rounded-xl p-2 hover:bg-darkSpruce transition-bg duration-200">Log In</button>
+
+        <div v-if="isLoading" class="ml-2 flex items-center text-slate-500">
+          <p class="text-base">Logging in</p>
+          <LoaderCircle class="ml-px scale-70 animate-spin"/>
+        </div>
+
       </div>
 
       <p class="flex text-red-400" v-if="errorMessage">{{ errorMessage }}</p>
