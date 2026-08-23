@@ -18,7 +18,7 @@ export const useTicketStore = defineStore('ticket', () => {
     async function index(status: null | string) {
 
         tickets.value = await apiIndex(status)
-
+        
     }
 
     async function show(ticket_id: number) {
@@ -43,7 +43,7 @@ export const useTicketStore = defineStore('ticket', () => {
 
     }
 
-    return { ticket, tickets, ticketInView,store, index, show, update, delete_ticket }
+    return { ticket, tickets, ticketInView, store, index, show, update, delete_ticket }
 
 })
 

@@ -35,10 +35,8 @@ class TicketController extends Controller
 
         } // Kung may query parameter na sinend, chain ulit ng panibagong condition sa query object.
 
-            
-
         $tickets = $query->get(); // run na yung query. Since nag chaining tayo, Depende sa mga previous na nangyare kung ano i rereturn ng query object na ito.
-
+        
         return response()->json($tickets);
 
     }
