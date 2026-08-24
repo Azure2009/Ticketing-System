@@ -5,7 +5,7 @@
     import { useTicketStore } from '../stores/ticket'
     import { useAuthStore } from '../stores/auth'
     import { useCommentStore } from '../stores/comment'
-    import { FilePenLine, User as agentIcon, UserShield as adminIcon } from '@lucide/vue'
+    import { FilePenLine, User as requesterIcon, UserCog as agentIcon, UserShield as adminIcon } from '@lucide/vue'
 
     let statusOptions = [ 'open', 'in progress', 'resolved', 'closed' ]
 
@@ -282,7 +282,8 @@
                         <div class="flex">
                             <p class="font-bold mr-2">{{ comment.creator.name }}</p>
                             <adminIcon v-if="comment.creator.role == 'admin'"/>
-                            <agentIcon v-else/>
+                            <agentIcon v-else-if="comment.creator.role == 'agent'"/>
+                            <requesterIcon v-else/>
                             <p class="ml-2 text-slate-500">{{ new Date(comment.created_at).toLocaleString() }}</p>
                         </div>
 
