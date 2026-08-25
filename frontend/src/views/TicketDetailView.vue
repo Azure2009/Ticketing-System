@@ -130,7 +130,7 @@
 
     <div class="min-h-screen bg-slate-100">
         <!-- i configure ang pointer events to none ng loader para kahit nasa top layer siya di niya ma bloblock yung mga nasa ilalim -->
-        <div class="fixed inset-0 flex items-center justify-center z-50 pointer-events-none text-black text-3xl">
+        <div class="fixed inset-0 flex items-center justify-center z-50 pointer-events-none text-slate-500 text-3xl">
             <div v-if="!ticketStore.ticketInView && !deleteMessage">Loading please wait...</div>
             
         </div>
@@ -148,13 +148,13 @@
 
             </button>
 
-            <p class="justify-self-center text-darkCoffee font-mono text-xl font-bold mb-4">Ticket</p>
+            <p class="justify-self-center text-everGreen font-mono text-xl font-bold mb-4">Ticket</p>
 
             <!-- Ticket display ko -->
 
-            <div class=" grid grid-cols-3 border border-darkCoffee rounded-xl mx-36 mb-6 p-4 bg-white">
+            <div class=" grid grid-cols-3 border border-everGreen rounded-xl mx-36 mb-6 p-4 bg-white">
 
-                <div class="col-start-1 col-span-2 row-span-2 border border-darkCoffee rounded-xl p-4 row-start-1 gap-x-4">
+                <div class="col-start-1 col-span-2 row-span-2 border border-everGreen rounded-xl p-4 row-start-1 gap-x-4">
 
                     <div class="">
 
@@ -175,7 +175,7 @@
                     
                     <button         
                     v-if="(authStore.user?.role === 'agent' || authStore.user?.role === 'admin') && !isBeingEdited && !deleteMessage"
-                    class="group flex ml-auto mb-auto text-darkCoffee cursor-default rounded-xl p-2 hover:text-white transition-text duration-200 hover:bg-darkCoffee transition-bg duration-200"
+                    class="group flex ml-auto mb-auto text-everGreen cursor-default rounded-xl p-2 hover:text-white transition-text duration-200 hover:bg-everGreen transition-bg duration-200"
                     @click="showForm"        
                     >
                         <FilePenLine/>
@@ -215,12 +215,12 @@
                             isBeingEdited = false
                             
                         }"
-                        class="decoration-darkCoffee decoration-2 underline-offset-2 hover:underline"
+                        class="decoration-everGreen decoration-2 underline-offset-2 hover:underline"
                         >
                         Cancel
                         </button>
 
-                        <button @click="handleEdit" class="ml-4 decoration-darkCoffee decoration-2 underline-offset-2 hover:underline">Save</button>
+                        <button @click="handleEdit" class="ml-4 decoration-everGreen decoration-2 underline-offset-2 hover:underline">Save</button>
                     </div>
 
                 </div>
@@ -238,7 +238,7 @@
                             @click="status = option"                            
                             v-bind:class="[
                                 'rounded-xl p-2 transition-colors duration-150',
-                                status === option? 'bg-darkCoffee text-white' : 'hover:bg-slate-200'
+                                status === option? 'bg-everGreen text-white' : 'hover:bg-slate-200'
                             ]">
                             {{ option }}
                         </button>
@@ -255,7 +255,7 @@
                             @click="priority = option"                            
                             v-bind:class="[
                                 'rounded-xl p-2 transition-colors duration-150',
-                                priority === option ? 'bg-darkCoffee text-white' : 'hover:bg-slate-200'
+                                priority === option ? 'bg-everGreen text-white' : 'hover:bg-slate-200'
                             ]">                    
                             {{ option }}
                         </button>
@@ -271,9 +271,9 @@
 
             <!-- Comment section -->
 
-            <p class="justify-self-center text-darkCoffee font-mono text-xl font-bold mt-10 mb-4">Comments</p>
+            <p class="justify-self-center text-everGreen font-mono text-xl font-bold mt-10 mb-4">Comments</p>
 
-            <div class=" p-6 border border-darkCoffee rounded-xl mx-36 bg-white">
+            <div class=" p-6 border border-everGreen rounded-xl mx-36 bg-white">
 
                 <div v-if="commentStore.comments.length > 0" class="grid grid-col-1 gap-y-10">
 
@@ -298,7 +298,7 @@
 
                 <form @submit.prevent="handlePost" class="mt-4 bg-slate-200 rounded-xl p-2">
                     <textarea v-model="comment" id="comment" placeholder="Post a comment" class="w-full p-2 resize-none rounded-xl outline-none"></textarea>
-                    <button type="submit" class="flex ml-auto mr-2 border bg-darkCoffee text-white rounded-xl mt-2 py-[1] px-4 text-slate-500 cursor-pointer">Post</button>
+                    <button type="submit" class="flex ml-auto mr-2 border bg-everGreen text-white rounded-xl mt-2 py-[1] px-4 text-slate-500 cursor-pointer">Post</button>
                 </form>            
                 
             </div>

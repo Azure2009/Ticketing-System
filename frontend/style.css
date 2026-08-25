@@ -14,3 +14,10 @@
     --color-darkCoffee: oklch(0.227 0.0324 54.84);
 
 }
+
+/* Custom scrollbar ko */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-darkSpruce) var(--color-everGreen);
+  
+}

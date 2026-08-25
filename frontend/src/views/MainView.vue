@@ -62,18 +62,18 @@
             <p class="mx-auto font-mono text-everGreen cursor-default">Welcome to the ticketing system</p>
             <div class="relative mt-4">
 
-                <button @click="handleTicketCreation" type="submit" class="self-center my-4 text-white bg-darkCoffee p-2 rounded-xl cursor-pointer hover:bg-darkCoffee shadow-xl/20 ring-white shadow-darkCoffee" >Create ticket</button>
+                <button @click="handleTicketCreation" type="submit" class="self-center my-4 text-white bg-everGreen p-2 rounded-xl cursor-pointer hover:bg-everGreen shadow-xl/20 ring-white shadow-everGreen" >Create ticket</button>
                 
-                <div class="grid grid-cols-1 gap-y-2 w-100 p-2 border border-darkCoffee shadow-xl/20 rounded-xl">
+                <div class="grid grid-cols-1 gap-y-2 w-100 p-2 border border-everGreen shadow-xl/20 rounded-xl">
 
                     <div class="flex row-start-1 items-center">
                         <label class="text-slate-500" for="title">Title:</label>
-                        <input class="ml-2 p-2 w-full border border-slate-500 rounded-xl bg-white outline-none focus:border-darkCoffee" id="title" type="text" v-model="title" required>
+                        <input class="ml-2 p-2 w-full border border-slate-500 rounded-xl bg-white outline-none focus:border-everGreen" id="title" type="text" v-model="title" required>
                     </div>
 
                     <div class="row-start-2">
                         <label class="text-slate-500" for="description">Description</label>
-                        <textarea class="flex w-full border border-slate-500 p-2 bg-white resize-none rounded-xl outline-none focus:border-darkCoffee" id="description" v-model="description" required>
+                        <textarea class="flex w-full border border-slate-500 p-2 bg-white resize-none rounded-xl outline-none focus:border-everGreen" id="description" v-model="description" required>
 
                         </textarea>
 
@@ -89,7 +89,7 @@
                                                         
                         </div>
                                                     
-                        <div v-if="isSettingPriority" class="absolute grid bg-darkCoffee text-slate-300 p-2 rounded-xl w-24">
+                        <div v-if="isSettingPriority" class="absolute grid bg-everGreen text-slate-300 p-2 rounded-xl w-24">
                             <button 
                             v-for="option in priorityOptions"
                             :key="option"

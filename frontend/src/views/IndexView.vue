@@ -1,34 +1,112 @@
 <script setup lang="ts">
 
     import { useRouter } from 'vue-router'
-    import { onMounted,  onUnmounted, ref } from 'vue'
+    import { onMounted,  onUnmounted, ref, Transition } from 'vue'
+
 
     const router = useRouter()
 
     const coreFeature_1 = ref<HTMLElement | null>(null)
-    const isVisible = ref(false)
+    const coreFeature_2 = ref<HTMLElement | null>(null)
+    const coreFeature_3 = ref<HTMLElement | null>(null)
+    const coreFeature_4 = ref<HTMLElement | null>(null)
 
-    let observer: IntersectionObserver | null = null
+
+    const isVisible_1 = ref(false)
+    const isVisible_2 = ref(false)
+    const isVisible_3 = ref(false)
+    const isVisible_4 = ref(false)
+
+    let observer_1: IntersectionObserver | null = null
+    let observer_2: IntersectionObserver | null = null
+    let observer_3: IntersectionObserver | null = null
+    let observer_4: IntersectionObserver | null = null
 
     onMounted(() => {
 
-        observer = new IntersectionObserver(([entry]) => {
+        window.addEventListener('scroll', () => {
 
-            isVisible.value = entry!.isIntersecting
+            console.log(window.scrollY)
+
+        })
+
+        observer_1 = new IntersectionObserver(([entry]) => {
+
+            // Naglagay ako ng if condition para mag fade in lang siya nang isang beses.
+
+            if (!isVisible_1.value) {
+
+                isVisible_1.value = entry!.isIntersecting
+
+            }
 
         }, { threshold: 1})
 
+        observer_2 = new IntersectionObserver(([entry]) => {
+
+            if (!isVisible_2.value) {
+
+                isVisible_2.value = entry!.isIntersecting
+
+            }
+
+        }, { threshold: 1})
+
+        observer_3 = new IntersectionObserver(([entry]) => {
+
+            if (!isVisible_3.value) {
+
+                isVisible_3.value = entry!.isIntersecting
+
+            }
+
+        }, { threshold: 1})
+
+        observer_4 = new IntersectionObserver(([entry]) => {
+
+            if (!isVisible_4.value) {
+
+                isVisible_4.value = entry!.isIntersecting
+
+            }
+
+        }, { threshold: 1})
+
+        // Kaya may if statements before the observe is para kapag may changes kang ginawa sa template like adding a v-if that is false (at that moment) behind the corefeature ref, hindi magkakaroon ng error gawa ng observer.observe(null).
+
         if (coreFeature_1.value) {
 
-            observer.observe(coreFeature_1.value)
+            observer_1.observe(coreFeature_1.value)
 
         }
 
+        if (coreFeature_2.value) {
+
+            observer_2.observe(coreFeature_2.value)
+
+        }
+
+        if (coreFeature_3.value) {
+
+            observer_3.observe(coreFeature_3.value)
+
+        }
+
+        if (coreFeature_4.value) {
+
+            observer_4.observe(coreFeature_4.value)
+
+        }
+
+
     })
+  
+    onUnmounted(() => { // Para maiwasan ang pagstack ng event listeners tuwing babalik ako sa page
 
-    onUnmounted(() => {
-
-        observer?.disconnect()
+        observer_1?.disconnect()
+        observer_2?.disconnect()
+        observer_3?.disconnect()
+        observer_4?.disconnect()
 
     })
 
@@ -50,6 +128,12 @@
 
     }
 
+    function navigateTo(yAmount: number) {
+        
+        window.scrollTo(0, yAmount)
+
+    }
+
 </script>
 
 <template>
@@ -58,15 +142,15 @@
 
         <!-- Header -->
 
-        <div class="relative flex justify-center items-center border border-darkSpruce-darker p-2 rounded-xl mx-50">
+        <div class="relative flex mx-50 justify-center items-center border border-darkSpruce-darker p-2 rounded-xl">
 
-            <p class="text-3xl font-mono">Akinto Ticketing System</p>
+            <p class="text-3xl font-mono cursor-default">Akinto Ticketing System</p>
 
             <button v-on:click="redirectToLogin" class="relative ml-auto bg-darkSpruce rounded-xl p-2 hover:bg-darkSpruce-darker transition-bg duration-200">Get started</button>
 
         </div>
 
-        <div class="grid grid-cols-1 justify-self-center justify-items-center gap-y-8 mt-30 mb-64">
+        <div class="grid grid-cols-1 justify-self-center justify-items-center gap-y-8 mt-30 mb-64 cursor-default">
             
             <p class="text-8xl font-mono">Akinto</p>
             <p class="text-slate-500 text-2xl">The support system a tech team actually needs</p>
@@ -75,88 +159,137 @@
 
         <!-- Core Features -->
 
-        <div class="grid grid-cols-1 gap-y-40">
+        <div class="grid grid-cols-1 gap-y-40 pointer-events-none">
 
-            <div ref="coreFeature_1"
-            class="grid grid-cols-2 row-start-1 row-span-2 my-10 ml-50 gap-x-50 mx-50"
-            :class="isVisible? 'opacity-100' : 'opacity-0'"
+                <div
+                ref="coreFeature_1" 
+                class="grid grid-cols-2 row-start-1 row-span-2 my-10 ml-50 gap-x-50 mx-50 items-center"                
+                >                    
+                    <div class="col-start-1" 
+                    :class="isVisible_1? 'opacity-100 transition-opacity duration-300' : 'opacity-0'"
+                    >
+                        <p class="text-3xl">Role-based access control</p>
+                        <p class="my-4">
+                            Everyone sees exactly what's relevant to them — requesters track their own issues, agents triage the full queue, admins manage the system — without exposing data or actions people shouldn't have.
+                        </p>
+                    </div>
+
+                    <Transition            
+                    enter-active-class="transition-all duration-1000"
+                    enter-from-class="opacity-0 translate-y-8"
+                    enter-to-class="opacity-100 translate-y-0"                
+                    >
+                        <div v-if="isVisible_1" class="col-start-2 grid grid-cols-3 justify-items-center text-darkSpruce">
+                            <!-- agentIcon ko -->
+                            <div class="justify-items-center"> 
+                                <svg xmlns="http://www.w3.org/2000/svg"  width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-cog-icon lucide-user-cog ml-4"><path d="M10 15H6a4 4 0 0 0-4 4v2"/><path d="m14.305 16.53.923-.382"/><path d="m15.228 13.852-.923-.383"/><path d="m16.852 12.228-.383-.923"/><path d="m16.852 17.772-.383.924"/><path d="m19.148 12.228.383-.923"/><path d="m19.53 18.696-.382-.924"/><path d="m20.772 13.852.924-.383"/><path d="m20.772 16.148.924.383"/><circle cx="18" cy="15" r="3"/><circle cx="9" cy="7" r="4"/></svg>
+                                <p class="font-bold">Agent</p>
+                            </div>
+                            <!-- adminIcon ko -->
+                            <div class="justify-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-shield-icon lucide-user-shield ml-4"><path d="M10 15H6a4 4 0 0 0-4 4v2"/><path d="M22 17.5c0 2.499-1.75 3.749-3.83 4.474a.5.5 0 0 1-.335-.005c-2.085-.72-3.835-1.97-3.835-4.47V14a.5.5 0 0 1 .5-.499c1 0 2.25-.6 3.12-1.36a.6.6 0 0 1 .76-.001c.875.765 2.12 1.36 3.12 1.36a.5.5 0 0 1 .5.5z"/><circle cx="9" cy="7" r="4"/></svg>
+                                <p class="font-bold">Admin</p>
+                            </div>
+                            <!-- requesterIcon ko -->
+                            <div class="justify-items-center">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                                <p class="font-bold">Requester</p>
+                            </div>
+                        </div>
+                    </Transition>                    
+                </div>
+            
+
+            <div 
+            ref="coreFeature_2" 
+            class="relative grid grid-cols-2  row-start-3 gap-x-50 my-10 mx-50 items-center"            
             >
-                <div class="col-start-1 items-center">
-                    <p class="text-3xl">Role-based access control</p>
-                    <p class="my-4">
-                        Everyone sees exactly what's relevant to them — requesters track their own issues, agents triage the full queue, admins manage the system — without exposing data or actions people shouldn't have.
-                    </p>
-                </div>
-                <div class="col-start-2 grid grid-cols-3 justify-items-center text-darkSpruce">
-                    <!-- agentIcon ko -->
-                    <div class="justify-items-center"> 
-                        <svg xmlns="http://www.w3.org/2000/svg"  width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-cog-icon lucide-user-cog ml-4"><path d="M10 15H6a4 4 0 0 0-4 4v2"/><path d="m14.305 16.53.923-.382"/><path d="m15.228 13.852-.923-.383"/><path d="m16.852 12.228-.383-.923"/><path d="m16.852 17.772-.383.924"/><path d="m19.148 12.228.383-.923"/><path d="m19.53 18.696-.382-.924"/><path d="m20.772 13.852.924-.383"/><path d="m20.772 16.148.924.383"/><circle cx="18" cy="15" r="3"/><circle cx="9" cy="7" r="4"/></svg>
-                        <p class="font-bold">Agent</p>
+                <transition
+                enter-active-class="transition-all duration-1000"
+                enter-to-class="opacity-100"
+                enter-from-class="opacity-0 -translate-y-8"              
+                >
+                    <div v-if="isVisible_2" class="col-start-1 flex justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-lock-icon lucide-shield-lock text-darkSpruce"><path d="M20 9.807V6a1 1 0 00-1-1c-2 0-4.49-1.19-6.24-2.72a1.17 1.17 0 00-1.52 0C9.5 3.8 7 5 5 5a1 1 0 00-1 1v7c0 3.88 2.107 6.254 5 7.796"/><path d="M19 17v-2a2 2 0 00-4 0v2"/><rect x="13" y="17" width="8" height="5" rx="1"/></svg>
                     </div>
-                    <!-- adminIcon ko -->
-                    <div class="justify-items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-shield-icon lucide-user-shield ml-4"><path d="M10 15H6a4 4 0 0 0-4 4v2"/><path d="M22 17.5c0 2.499-1.75 3.749-3.83 4.474a.5.5 0 0 1-.335-.005c-2.085-.72-3.835-1.97-3.835-4.47V14a.5.5 0 0 1 .5-.499c1 0 2.25-.6 3.12-1.36a.6.6 0 0 1 .76-.001c.875.765 2.12 1.36 3.12 1.36a.5.5 0 0 1 .5.5z"/><circle cx="9" cy="7" r="4"/></svg>
-                        <p class="font-bold">Admin</p>
-                    </div>
-                    <!-- requesterIcon ko -->
-                    <div class="justify-items-center">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-user-icon lucide-user"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                        <p class="font-bold">Requester</p>
-                    </div>
-                </div>
-            </div>
+                </transition>
 
-            <div class="grid grid-cols-2 row-start-3 my-10 mx-50">
-                <div class="col-start-2">
+                <div 
+                class="col-start-2"
+                :class="isVisible_2? 'opacity-100 transition-opacity duration-300' : 'opacity-0'"
+                >
                     <p class="text-3xl">Secure authentication</p>
                     <p class="my-4">
                         User accounts and data are protected using the same security patterns real production systems use — not just a toy login form.
                     </p>
                 </div>
-                <div class="col-start-1">
-                    
-                </div>
+                
             </div>
 
-            <div class="grid grid-cols-2 row-start-4 ml-50 my-10 mx-50">
-                <div class="col-start-1">
+            <div
+            ref="coreFeature_3" 
+            class="grid grid-cols-2 row-start-4 ml-50 gap-x-50 my-10 mx-50 items-center"            
+            >
+                <div 
+                class="col-start-1"
+                :class="isVisible_3? 'opacity-100 transition-opacity duration-300' : 'opacity-0'"
+                >
                     <p class="text-3xl">Policy-based authorization</p>
                     <p class="my-4">
                         Every sensitive action (viewing, editing, deleting a ticket) is checked against who's actually allowed to do it — data stays scoped and safe even if someone tries to access something directly by URL.
                     </p>
                 </div>
-                <div class="col-start-2">
-                    
-                </div>
+
+                <Transition
+                enter-active-class="transition-all duration-1000"
+                enter-from-class="opacity-0 translate-y-8"
+                enter-to-class="opacity-100"                
+                >
+                    <div v-if="isVisible_3" class="col-start-2 flex justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-id-card-icon lucide-id-card text-darkSpruce -translate-y-2"><path d="M16 10h2"/><path d="M16 14h2"/><path d="M6.17 15a3 3 0 0 1 5.66 0"/><circle cx="9" cy="11" r="2"/><rect x="2" y="5" width="20" height="14" rx="2"/></svg>
+                    </div>
+                </Transition>
             </div>
 
-            <div class="grid grid-cols-2 row-start-5 my-10 mx-50">
-                <div class="col-start-2">
+            <div
+            ref="coreFeature_4" 
+            class="grid grid-cols-2 row-start-5 gap-x-50 my-10 mx-50 items-center"            
+            >
+                <Transition
+                enter-active-class="transition-all duration-1000"
+                enter-from-class="opacity-0"
+                enter-to-class=""                
+                >
+                    <div v-if="isVisible_4" class="col-start-1 flex justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle-more-icon lucide-message-circle-more text-darkSpruce"><path d="M2.992 16.342a2 2 0 0 1 .094 1.167l-1.065 3.29a1 1 0 0 0 1.236 1.168l3.413-.998a2 2 0 0 1 1.099.092 10 10 0 1 0-4.777-4.719"/><path d="M8 12h.01"/><path d="M12 12h.01"/><path d="M16 12h.01"/></svg>
+                    </div>
+                </Transition>
+
+                <div 
+                class="col-start-2"
+                :class="isVisible_4? 'opacity-100 transition-opacity duration-300' : 'opacity-0'"
+                >
                     <p class="text-3xl">Threaded comments on tickets</p>
                     <p class="my-4">
                         All communication about an issue lives in one place, tied directly to the ticket — no digging through email chains to find context.
                     </p>
                 </div>
-                <div class="col-start-1">
-                    
-                </div>
+                
             </div>
 
         </div>
 
         <div class="mx-25">
 
-            <!-- Divider -->
+            <!-- Divider for tech stack -->
 
             <div class="relative flex items-center mt-10 gap-x-4">
                 <div class="flex-1 h-px bg-darkSpruce-darker"></div>
                 <p class="text-white text-xl">Tech Stack</p>
                 <div class="flex-1 h-px bg-darkSpruce-darker"></div>
             </div>
-
-            <!-- <p class="flex text-slate-500">* Hover over icons to see more details</p> -->
             
-            <div class="mt-4 grid grid-cols-3">
+            <div class="mt-10 grid grid-cols-3">
 
                 <!-- backend tech stack -->
                 <div class="justify-items-center">                    
@@ -223,10 +356,18 @@
                     <p class="justify-center font-bold text-2xl">Core features</p>
                     <div class="grid grid-cols-1 mt-4 gap-y-2 text-xl font-mono">
                         
-                        <p class="hover:text-slate-500 cursor-default">Role-based access control</p>
-                        <p class="hover:text-slate-500 cursor-default">Secure authentication</p>
-                        <p class="hover:text-slate-500 cursor-default">Policy-based authorization</p>
-                        <p class="hover:text-slate-500 cursor-default">Threaded comments</p>
+                        <p 
+                        @click="() => {
+
+                            navigateTo(300)
+                        }" 
+                        class="hover:text-slate-500 cursor-default"
+                        >
+                        Role-based access control
+                        </p>
+                        <p @click="() => navigateTo(700)" class="hover:text-slate-500 cursor-default">Secure authentication</p>
+                        <p @click="() => navigateTo(1100)" class="hover:text-slate-500 cursor-default">Policy-based authorization</p>
+                        <p @click="() => navigateTo(1500)" class="hover:text-slate-500 cursor-default">Threaded comments</p>
                         
                     </div>
 

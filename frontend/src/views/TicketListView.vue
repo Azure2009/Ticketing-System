@@ -49,7 +49,7 @@
 <template>
     <div v-if="isLoading" class="absolute inset-0 flex justify-self-center self-center self-center text-3xl text-slate-500">Loading tickets...</div>
 
-    <div v-else-if="hasFetchedOnce"> <!-- Kailangan toh i wrap sa if statements para ichecheck lang yung length ng tickets array kung tapos na mag fetch -->
+    <div v-else-if="hasFetchedOnce"> <!-- Kailangan toh gawing wrapper sa if statements para ichecheck lang yung length ng tickets array kung tapos na mag fetch -->
 
         <div v-if="ticketStore.tickets.length === 0"> <!-- Truthy ang array kahit empty pa yung loob kaya hindi gagana yung condition na !ticketStore.tickets -->
             <div v-if="!isFiltered">
@@ -113,7 +113,7 @@
             
             <div class="grid grid-cols-1 mt-2">
 
-                <div class="grid grid-cols-5 justify-items-center border border-darkCoffee text-darkCoffee rounded-xl pointer-events-none p-2">
+                <div class="grid grid-cols-5 justify-items-center border border-everGreen text-everGreen rounded-xl pointer-events-none p-2">
 
                     <p>Title</p>
                     <p>Assignee</p>
@@ -124,7 +124,7 @@
                 </div>
                 
                 <div v-for="ticket in ticketStore.tickets" :key="ticket.id" class="relative group">
-                    <RouterLink :to="{name: 'ticket-detail', params: { id: ticket.id }}" class="grid grid-cols-5 justify-items-center items-center p-2 cursor-default text-slate-500 group-hover:bg-darkCoffee rounded-xl group-hover:text-white">    
+                    <RouterLink :to="{name: 'ticket-detail', params: { id: ticket.id }}" class="grid grid-cols-5 justify-items-center items-center p-2 cursor-default text-slate-500 group-hover:bg-everGreen rounded-xl group-hover:text-white">    
                         <p class="col-start-1">{{ ticket.title }}</p>
                         <p v-if="ticket.assignee" class="rounded-xl col-start-2">{{ ticket.assignee.name }}</p>
                         <p v-else class="rounded-xl col-start-2 p-2">Unassigned</p>
