@@ -24,12 +24,6 @@
 
     onMounted(() => {
 
-        window.addEventListener('scroll', () => {
-
-            console.log(window.scrollY)
-
-        })
-
         observer_1 = new IntersectionObserver(([entry]) => {
 
             // Naglagay ako ng if condition para mag fade in lang siya nang isang beses.
@@ -142,11 +136,10 @@
 
         <!-- Header -->
 
-        <div class="relative flex mx-50 justify-center items-center border border-darkSpruce-darker p-2 rounded-xl">
+        <div class="relative flex justify-self-start mx-2 items-center border border-darkSpruce-darker p-2 rounded-xl">
 
-            <p class="text-3xl font-mono cursor-default">Akinto Ticketing System</p>
-
-            <button v-on:click="redirectToLogin" class="relative ml-auto bg-darkSpruce rounded-xl p-2 hover:bg-darkSpruce-darker transition-bg duration-200">Get started</button>
+            <p class="text-xs font-mono cursor-default">Akinto Ticketing System</p>
+            <button v-on:click="redirectToLogin" class="relative ml-auto bg-darkSpruce rounded-xl p-2 text-nowrap hover:bg-darkSpruce-darker transition-bg duration-200">Get started</button>
 
         </div>
 

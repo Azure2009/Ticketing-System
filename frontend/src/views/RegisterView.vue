@@ -48,7 +48,7 @@
   <div class="flex">
     <div class="flex ml-auto bg-darkSpruce-darker text-white items-center rounded-xl gap-x-2 p-2">
       <router-link :to="{ name: 'index' }"><button class="ml-auto bg-darkSpruce p-2 rounded-xl hover:bg-everGreen hover:transition-bg duration-200"><Home/></button></router-link>
-      <router-link :to="{ name: 'login' }"><button class="p-2 bg-darkSpruce rounded-xl hover:bg-everGreen hover:transition-bg duration-200">Log in</button></router-link>
+      <router-link :to="{ name: 'login' }"><button class="p-2 bg-darkSpruce rounded-xl hover:bg-everGreen hover:transition-bg duration-200">Sign in</button></router-link>
     </div>
   </div>
 
@@ -58,9 +58,9 @@
 
       <div class="flex w-full border-b-2 pb-4">
 
-      <p class="text-5xl pointer-events-none">Register</p>
+        <p class="text-5xl pointer-events-none">Register</p>
 
-    </div>
+      </div>
 
       <div class="row-start-2">
         <label class="mr-2" for="register_name">Name</label>

@@ -51,7 +51,7 @@
 
     <div class="flex w-full border-b-2 pb-4">
 
-      <p class="text-5xl pointer-events-none">Log in</p>
+      <p class="text-5xl pointer-events-none">Sign in</p>
 
     </div>
 
@@ -68,10 +68,10 @@
       </div>
 
       <div class="row-start-3 flex justify-items-center">
-        <button type="submit" class="outline outline-darkSpruce rounded-xl p-2 hover:bg-darkSpruce transition-bg duration-200">Log In</button>
+        <button type="submit" class="outline outline-darkSpruce rounded-xl p-2 hover:bg-darkSpruce transition-bg duration-200">Sign In</button>
 
         <div v-if="isLoading" class="ml-2 flex items-center text-slate-500">
-          <p class="text-base">Logging in</p>
+          <p class="text-base">Signing in</p>
           <LoaderCircle class="ml-px scale-70 animate-spin"/>
         </div>
 
