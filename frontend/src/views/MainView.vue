@@ -59,12 +59,13 @@
     <div class="relative p-6">
         
         <div class="justify-items-center">
-            <p class="mx-auto font-mono text-everGreen cursor-default">Welcome to the ticketing system</p>
-            <div class="relative mt-4">
+            <p class="mx-auto font-mono text-everGreen text-center cursor-default">Welcome to the ticketing system</p>
+            <div class="flex-col relative mt-4">
 
-                <button @click="handleTicketCreation" type="submit" class="self-center my-4 text-white bg-everGreen p-2 rounded-xl cursor-pointer hover:bg-everGreen shadow-xl/20 ring-white shadow-everGreen" >Create ticket</button>
-                
-                <div class="grid grid-cols-1 gap-y-2 w-100 p-2 border border-everGreen shadow-xl/20 rounded-xl">
+                <p class="relative flex text-green-500 mt-4" v-if="successMessage">{{ successMessage }}</p>
+                <p class="relative flex text-red-500 mt-4" v-if="errorMessage">{{ errorMessage }}</p>
+
+                <div class="grid grid-cols-1 gap-y-2 p-2 border border-everGreen shadow-xl/20 rounded-xl">
 
                     <div class="flex row-start-1 items-center">
                         <label class="text-slate-500" for="title">Title:</label>
@@ -103,11 +104,8 @@
 
                 </div>
 
-                
+                <button @click="handleTicketCreation" type="submit" class="flex ml-auto my-4 text-white bg-everGreen p-2 rounded-xl cursor-pointer hover:bg-everGreen shadow-xl/20 ring-white shadow-everGreen" >Create ticket</button>
 
-                <p class="relative flex text-green-500 justify-self-end mt-4" v-if="successMessage">{{ successMessage }}</p>
-                <p class="relative flex text-red-500 justify-self-end mt-4" v-if="errorMessage">{{ errorMessage }}</p>
-                
             </div>
 
         </div>

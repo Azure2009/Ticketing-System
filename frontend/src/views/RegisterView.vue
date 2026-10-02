@@ -45,12 +45,11 @@
 <template>
 <div class="relative min-h-screen bg-everGreen p-4">
 
-  <div class="flex">
-    <div class="flex ml-auto bg-darkSpruce-darker text-white items-center rounded-xl gap-x-2 p-2">
-      <router-link :to="{ name: 'index' }"><button class="ml-auto bg-darkSpruce p-2 rounded-xl hover:bg-everGreen hover:transition-bg duration-200"><Home/></button></router-link>
-      <router-link :to="{ name: 'login' }"><button class="p-2 bg-darkSpruce rounded-xl hover:bg-everGreen hover:transition-bg duration-200">Sign in</button></router-link>
-    </div>
+  <div class="flex w-fit justify-self-center bg-darkSpruce-darker text-white items-center rounded-xl gap-x-2 p-2 mb-4">
+    <router-link :to="{ name: 'index' }"><button class="bg-darkSpruce p-2 rounded-xl hover:bg-everGreen hover:transition-bg duration-200"><Home/></button></router-link>
+    <router-link :to="{ name: 'login' }"><button class="p-2 bg-darkSpruce rounded-xl hover:bg-everGreen hover:transition-bg duration-200">Sign in</button></router-link>
   </div>
+  
 
   <div class="bg-everGreen inset-shadow-sm inset-shadow-darkSpruce/100 text-white p-4 rounded-xl text-2xl grid grid-cols-1 gap-4 relative p-10 justify-self-center">
     
@@ -58,7 +57,7 @@
 
       <div class="flex w-full border-b-2 pb-4">
 
-        <p class="text-5xl pointer-events-none">Register</p>
+        <p class="text-3xl pointer-events-none">Register</p>
 
       </div>
 
@@ -84,7 +83,7 @@
 
       <div class="flex row-start-6 items-center">
         <button class="outline outline-darkSpruce rounded-xl p-2 hover:bg-darkSpruce transition-bg duration-200" type="submit">Register</button>
-        <p class="text-slate-500 text-xs ml-2">note: ticketing system automatically logs you in once you have registered.</p>
+        <p class="text-slate-500 text-xs ml-2 ">note: ticketing system automatically logs you in once you have registered.</p>
       </div>
 
       <div v-if="isLoading" class="flex items-center text-slate-500">

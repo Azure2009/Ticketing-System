@@ -28,6 +28,7 @@
 
     } catch (err: any) {
 
+      isLoading.value = false
       errorMessage.value = err.response.data.errors.email[0]
 
     }
@@ -47,27 +48,27 @@
       </button>
     </router-link>
   </div>
-  <div class="bg-everGreen inset-shadow-sm inset-shadow-darkSpruce/100 text-white p-4 rounded-xl text-2xl justify-self-center grid grid-cols-1 gap-4 relative p-10 mt-10">
+  <div class="bg-everGreen inset-shadow-sm inset-shadow-darkSpruce/100 text-white p-4 rounded-xl text-2xl justify-self-center flex flex-col gap-4 relative p-10 mt-10">
 
     <div class="flex w-full border-b-2 pb-4">
 
-      <p class="text-5xl pointer-events-none">Sign in</p>
+      <p class="text-3xl pointer-events-none">Sign in</p>
 
     </div>
 
-    <form class="row-start-2 grid grid-cols-1 gap-y-4" @submit.prevent="handleSubmit">
+    <form class="flex flex-col gap-y-4" @submit.prevent="handleSubmit">
       
-      <div class="row-start-1">
+      <div class="">
         <label class="mr-2" for="email">Email:</label>
         <input autocomplete="off" class="w-full border-2 border-slate-300 rounded-xl outline-none focus:border-darkSpruce px-2 py-1" id="email" type="email" v-model="email" required/>
       </div>
 
-      <div class="row-start-2">
+      <div class="">
         <label class="mr-2" for="password">Password:</label>
         <input autocomplete="off" class="w-full border-2 border-slate-300 rounded-xl outline-none focus:border-darkSpruce px-2 py-1" id="password" type="password" v-model="password" required/>
       </div>
 
-      <div class="row-start-3 flex justify-items-center">
+      <div class="flex justify-items-center">
         <button type="submit" class="outline outline-darkSpruce rounded-xl p-2 hover:bg-darkSpruce transition-bg duration-200">Sign In</button>
 
         <div v-if="isLoading" class="ml-2 flex items-center text-slate-500">
@@ -81,9 +82,9 @@
     
     </form>
 
-    <div class="flex">
-      <p class="pointer-events-none">Don't have an account? Register</p>
-      <router-link to="/register" class="ml-2 text-darkSpruce">here</router-link>
+    <div class="flex flex-col">
+      <p class="pointer-events-none">Don't have an account? </p>
+      <router-link to="/register" class="text-darkSpruce">Register here</router-link>
     </div>
 
   </div>

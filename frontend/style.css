@@ -9,6 +9,7 @@
     --font-mono: "Martian Mono", monospace;
 
     --color-everGreen: oklch(0.2503 0.0452 155.17);
+    --color-everGreen-darker: oklch(0.2024 0.0452 155.17);
     --color-darkSpruce: oklch(0.5116 0.0922 155.24);
     --color-darkSpruce-darker: oklch(0.4632 0.0922 155.24);
     --color-darkCoffee: oklch(0.227 0.0324 54.84);
@@ -18,6 +19,6 @@
 /* Custom scrollbar ko */
 * {
   scrollbar-width: thin;
-  scrollbar-color: var(--color-darkSpruce) var(--color-everGreen);
+  scrollbar-color: var(--color-darkSpruce) var(--color-everGreen-darker);
   
 }
