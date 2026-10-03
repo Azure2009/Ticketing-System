@@ -5,13 +5,14 @@
     import { useTicketStore } from '../stores/ticket'
     import { useAuthStore } from '../stores/auth'
     import { useCommentStore } from '../stores/comment'
-    import { FilePenLine, User as requesterIcon, UserCog as agentIcon, UserShield as adminIcon } from '@lucide/vue'
+    import { CircleX, Maximize2, FilePenLine, User as requesterIcon, UserCog as agentIcon, UserShield as adminIcon } from '@lucide/vue'
 
     let statusOptions = [ 'open', 'in progress', 'resolved', 'closed' ]
 
     let priorityOptions = [ 'low', 'medium', 'high', 'urgent' ]
 
     const isBeingEdited = ref(false)
+    const isFullScreen = ref(false)
 
     const ticketStore = useTicketStore()
     const authStore = useAuthStore()
@@ -95,6 +96,20 @@
 
     }
 
+    function fullScreenOn() {
+
+        document.body.style.overflow = 'hidden'
+        isFullScreen.value = true
+
+    }
+
+    function fullScreenOff() {
+
+        document.body.style.overflow = ''
+        isFullScreen.value = false
+
+    }
+
     async function handlePost() {
 
        try {
@@ -136,11 +151,11 @@
         </div>
 
 
-        <div v-if="ticketStore.ticketInView" class="relative p-6 cursor-default">
+        <div v-if="ticketStore.ticketInView" class="flex flex-col items-center p-2 cursor-default">
 
             <button         
             v-if="authStore.user?.role === 'admin' && !deleteMessage"
-            class="flex mb-4 text-slate-500 border border-slate-500  rounded-xl p-2 hover:text-red-500 hover:border-red-500 hover:transition-[text,border] duration-200 "
+            class="flex w-fit mb-4 text-slate-500 border border-slate-500  rounded-xl p-2 hover:text-red-500 hover:border-red-500 hover:transition-[text,border] duration-200 "
             @click="handleDelete"        
             >
 
@@ -152,39 +167,41 @@
 
             <!-- Ticket display ko -->
 
-            <div class=" grid grid-cols-3 border border-everGreen rounded-xl mx-36 mb-6 p-4 bg-white">
+            <div class=" grid grid-cols-3 gap-2 border border-everGreen rounded-xl mb-6 p-4 bg-white">
 
-                <div class="col-start-1 col-span-2 row-span-2 border border-everGreen rounded-xl p-4 row-start-1 gap-x-4">
+                <div class="col-start-1 col-span-3 relative flex flex-col gap-3 border border-everGreen rounded-xl p-2">
 
-                    <div class="">
+                    <Maximize2 @click="fullScreenOn" class="absolute cursor-pointer right-2 top-2 text-everGreen translate-y-[4px] w-4 h-4 transition-all duration-200 hover:w-5 hover:h-5 "/>
 
-                        <p class="text-5xl">{{ ticketStore.ticketInView?.title }}</p>
-                        <p class="text-slate-500 mt-4">Created By: {{ ticketStore.ticketInView?.creator.name }}</p> 
+                    <div class="text-center">
+
+                        <p class="text-2xl truncate">{{ ticketStore.ticketInView?.title }}</p>
+                        
+                        <div class="text-slate-500">
+                            <p>Created By</p>
+                            <p>{{ ticketStore.ticketInView?.creator.name }}</p> 
+                        </div>
 
                     </div>
 
-                    <div class="mt-10">                    
-                        <p class="text-xl font-bold">Description</p>
-                        <p class="mt-2 ml-10">{{ ticketStore.ticketInView?.description }}</p>
-                    </div>    
+                    <div>
+                        <p class="text-lg font-bold">Description</p>                    
+                        <p class="indent-8 truncate">{{ ticketStore.ticketInView?.description }}</p>
+                    </div>
 
                 </div>
 
-                
-                <div class="flex col-start-3 row-start-1">
-                    
+                <div v-if="!isBeingEdited" class="gap-y-4 col-start-1 col-span-3 row-start-2  text-2xl">
+
                     <button         
                     v-if="(authStore.user?.role === 'agent' || authStore.user?.role === 'admin') && !isBeingEdited && !deleteMessage"
-                    class="group flex ml-auto mb-auto text-everGreen cursor-default rounded-xl p-2 hover:text-white transition-text duration-200 hover:bg-everGreen transition-bg duration-200"
+                    class="group flex items-center ml-auto mb-auto text-everGreen cursor-default rounded-xl p-2 hover:text-white transition-text duration-200 hover:bg-everGreen transition-bg duration-200"
                     @click="showForm"        
                     >
                         <FilePenLine/>
-                        <div class="absolute pointer-events-none translate-x-10 flex border-2 w-42 border-slate-300 bg-black text-white text-[10px] px-px opacity-0 invisible group-hover:opacity-100 visible group-hover:transition-opacity duration-200">Set status, priority, and assignee id</div>
+                        <div class="absolute pointer-events-none flex border-2 w-fit text-nowrap -translate-x-44 border-slate-300 bg-black text-white text-[10px] px-px opacity-0 invisible group-hover:opacity-100 visible group-hover:transition-opacity duration-200">Set status, priority, and assignee id</div>
                     </button>
 
-                </div>
-
-                <div v-if="!isBeingEdited" class="gap-y-4 col-start-3 row-start-2 justify-self-center text-2xl">
 
                     <div class="flex items-center">
                         <p>Status:</p>
@@ -206,30 +223,11 @@
                 </div>
 
                 <!-- Kapag ineedit ng user ko -->
+                <div v-if="isBeingEdited" class="flex flex-col gap-2 row-start-2 col-span-3">
 
-                <div v-if="isBeingEdited" class="col-start-3 row-start-1 ml-auto text-2xl transition-opacity duration-200">
+                    <p class="flex text-nowrap">Set status</p>
 
-                    <div class="flex">
-                        <button @click="() => {
-
-                            isBeingEdited = false
-                            
-                        }"
-                        class="decoration-everGreen decoration-2 underline-offset-2 hover:underline"
-                        >
-                        Cancel
-                        </button>
-
-                        <button @click="handleEdit" class="ml-4 decoration-everGreen decoration-2 underline-offset-2 hover:underline">Save</button>
-                    </div>
-
-                </div>
-
-                <div v-if="isBeingEdited" class="relative col-start-3 row-start-2 justify-self-center text-2xl transition-opacity duration-200">
-
-                    <p>Set status</p>
-
-                    <div class="flex rounded-xl p-2 justify-evenly text-xs">
+                    <div class="flex rounded-xl p-[2px] text-nowrap gap-2 justify-evenly text-xs">
                                                                                     
                         <button
                             v-for="option in statusOptions"
@@ -245,9 +243,9 @@
 
                     </div>
 
-                    <p>Set priority</p>
+                    <p class="text-nowrap">Set priority</p>
                             
-                    <div class="flex rounded-xl p-2 justify-evenly text-xs">
+                    <div class="flex rounded-xl pr-2 py-[2px] gap-2 text-xs">
                         <button
                             v-for="option in priorityOptions"
                             :key="option"
@@ -262,9 +260,60 @@
 
                     </div>
                     
-                    <p>Assigned to:</p>
+                    <p class="text-nowrap">Assigned to:</p>
+
                     <input v-model="assigned_to" type="text" placeholder="Enter assignee ID"  class="outline outline-black rounded-xl p-2">                    
                     
+                </div>
+
+                <!-- Cancel and save button -->
+                <div v-if="isBeingEdited" class="col-start-1 col-span-3 row-start-5">
+
+                    <div class="flex w-fit ml-auto">
+                        <button @click="() => {
+
+                            isBeingEdited = false
+                            
+                        }"
+                        class="decoration-everGreen decoration-2 underline-offset-2 hover:underline"
+                        >
+                        Cancel
+                        </button>
+
+                        <button @click="handleEdit" class="ml-4 decoration-everGreen decoration-2 underline-offset-2 hover:underline">Save</button>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Kapag finullscreen yung initial details -->
+
+            <div v-if="isFullScreen" class="fixed inset-0 flex justify-center items-center mx-2">
+
+                <div class="flex flex-col text-white ring-2 p-2 bg-everGreen w-full h-fit rounded-xl">
+                    
+                    <CircleX @click="fullScreenOff" class="cursor-pointer flex ml-auto"/>
+                    
+                    <div class="text-center">
+
+                        <p class="text-2xl">{{ ticketStore.ticketInView?.title }}</p>
+                        
+                        <div class="">
+                            <p>Created By</p>
+                            <p>{{ ticketStore.ticketInView?.creator.name }}</p> 
+                        </div>
+
+                    </div>
+
+                    <div class="p-2">
+                          
+                        <p class="text-lg font-bold">Description</p>                    
+                        
+                        <div class="border-4 border-everGreen-darker p-2">
+                            <p class=" indent-8 break-words text-wrap">{{ ticketStore.ticketInView?.description }}</p>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -273,7 +322,7 @@
 
             <p class="justify-self-center text-everGreen font-mono text-xl font-bold mt-10 mb-4">Comments</p>
 
-            <div class=" p-6 border border-everGreen rounded-xl mx-36 bg-white">
+            <div class=" p-6 border border-everGreen rounded-xl bg-white">
 
                 <div v-if="commentStore.comments.length > 0" class="grid grid-col-1 gap-y-10">
 

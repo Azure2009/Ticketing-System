@@ -1,7 +1,7 @@
 <script setup lang="ts">
 
     import { onMounted, ref } from 'vue'
-    import { FunnelX, Plus } from '@lucide/vue'
+    import { CircleX, Plus } from '@lucide/vue'
     import { useTicketStore } from '../stores/ticket'
     import { RouterLink } from 'vue-router'
     import router from '@/router'
@@ -64,73 +64,76 @@
 
             <div v-else-if="isFiltered" class="fixed inset-0 flex items-center justify-center">
                 <div>
-                    <p class="pointer-events-none text-black text-3xl text-slate-800">No tickets available for this status</p> 
+                    <p class="pointer-events-none text-center text-black text-3xl text-slate-800">No tickets available for this status</p> 
                     <button @click="resetFilter" class="flex mt-2 justify-self-center text-slate-500 hover:underline decoration-darkSpruce underline-offset-2">Reset</button>
                 </div>
             </div>
 
         </div>
         
-        <div v-else-if="ticketStore.tickets.length > 0" class="mx-50 my-20">
-    
-            <div v-if="isFiltered" class="relative group ml-2 inline-block mr-2">
-                <FunnelX @click="resetFilter" class="translate-y-px text-slate-400 "/>
-                <div class="absolute flex border-2 w-14 border-slate-300 bg-black text-white text-[10px] px-px -translate-x-14 -translate-y-12 opacity-0 invisible group-hover:opacity-100 visible group-hover:transition-opacity duration-200">Reset filter</div>
-            </div>
+        <div v-else-if="ticketStore.tickets.length > 0" class="mx-2 mt-2">
+            
+            <div class="flex items-center gap-2">
 
-            <div class="group relative inline-block">
-                
-                <button type="button" class="px-3 py-2 border border-slate-300 rounded-lg text-sm">
-                {{ status ?? 'Set status' }}
-                </button>
-                
-                <div
-                class="absolute left-full w-100 top-0 hidden group-hover:flex
-                        items-center justify-evenly -translate-y-2 gap-x-2 bg-white border border-slate-200
-                        rounded-xl p-2 shadow-md"
-                >
-                    <button
-                        v-for="option in options"
-                        :key="option"
-                        type="button"
-                        @click="() => {
+                <div class="flex group w-fit">
 
-                            status = option
-
-                            renderTicketsByStatus()
-
-                        }"
-                        class="px-3 py-1.5 text-sm rounded-md  hover:bg-slate-200"
-                    >
-                        {{ option }}
+                    <button type="button" class="px-3 py-2 border border-slate-300 rounded-lg text-sm">
+                    Set status
                     </button>
+
+                    <div class="absolute translate-y-9 translate-x-[3px] flex flex-col w-fit opacity-0 invisible items-center justify-evenly gap-x-[2px] bg-white border border-slate-200 rounded-xl shadow-md group-hover:opacity-100 group-hover:visible">
+                        
+                        <button
+                            v-for="option in options"
+                            :key="option"
+                            type="button"
+                            @click="() => {
+
+                                status = option
+
+                                renderTicketsByStatus()
+
+                            }"
+                            class="px-3 py-1.5 text-xs rounded-md text-nowrap hover:bg-slate-200"
+                        >
+                            {{ option }}
+                        </button>
+
+                    </div>
 
                 </div>
 
+                <div v-if="isFiltered" class="flex text-xs text-slate-500 items-center h-fit bg-slate-300 pl-[2px] rounded-full">
+                    <p class="flex px-[2px] justify-center">{{ status }}</p>
+
+                    
+                    <CircleX class="flex ml-auto cursor-pointer" @click="resetFilter"/>
+                    
+                    
+                </div>
+            
             </div>
-
             
-            
-            <div class="grid grid-cols-1 mt-2">
+            <div class="flex flex-col gap-2 mt-2">
 
-                <div class="grid grid-cols-5 justify-items-center border border-everGreen text-everGreen rounded-xl pointer-events-none p-2">
+                <div class="flex items-center justify-center border border-everGreen text-everGreen rounded-xl pointer-events-none p-2">
 
                     <p>Title</p>
-                    <p>Assignee</p>
+                    <!-- <p>Assignee</p>
                     <p>Priority</p>
                     <p>Creator</p>
-                    <p>Status</p>
+                    <p>Status</p> -->
                     
                 </div>
                 
-                <div v-for="ticket in ticketStore.tickets" :key="ticket.id" class="relative group">
-                    <RouterLink :to="{name: 'ticket-detail', params: { id: ticket.id }}" class="grid grid-cols-5 justify-items-center items-center p-2 cursor-default text-slate-500 group-hover:bg-everGreen rounded-xl group-hover:text-white">    
-                        <p class="col-start-1">{{ ticket.title }}</p>
-                        <p v-if="ticket.assignee" class="rounded-xl col-start-2">{{ ticket.assignee.name }}</p>
+                <div v-for="ticket in ticketStore.tickets" :key="ticket.id" class="group">
+                    <RouterLink :to="{name: 'ticket-detail', params: { id: ticket.id }}" class="flex justify-center p-2 cursor-default text-slate-500 group-hover:bg-everGreen rounded-xl group-hover:text-white">    
+                        <p>{{ ticket.title }}</p>
+                        <!-- <p v-if="ticket.assignee" class="rounded-xl col-start-2">{{ ticket.assignee.name }}</p>
                         <p v-else class="rounded-xl col-start-2 p-2">Unassigned</p>
                         <p class="mr-4 col-start-3">{{ ticket.priority }}</p>
                         <p class="col-start-4">{{ ticket.creator.name }}</p>
-                        <p class="col-start-5">{{ ticket.status }}</p>            
+                        <p class="col-start-5">{{ ticket.status }}</p>             -->
                     </RouterLink>
                 </div>
 
