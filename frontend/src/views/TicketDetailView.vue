@@ -31,6 +31,12 @@
     const errorMessage = ref('')
     const comment = ref('')
 
+    onMounted(() => {
+
+        window.scrollTo(0, 0)
+
+    })
+
     async function handleEdit() {
 
         isBeingEdited.value = false
@@ -167,11 +173,11 @@
 
             <!-- Ticket display ko -->
 
-            <div class=" grid grid-cols-3 gap-2 border border-everGreen rounded-xl mb-6 p-4 bg-white">
+            <div class=" grid grid-cols-3 gap-2 border border-everGreen rounded-xl mb-6 p-4 w-full bg-white">
 
                 <div class="col-start-1 col-span-3 relative flex flex-col gap-3 border border-everGreen rounded-xl p-2">
 
-                    <Maximize2 @click="fullScreenOn" class="absolute cursor-pointer right-2 top-2 text-everGreen translate-y-[4px] w-4 h-4 transition-all duration-200 hover:w-5 hover:h-5 "/>
+                    <Maximize2 @click="fullScreenOn" class="ml-auto cursor-pointer right-2 top-2 text-everGreen translate-y-[4px] w-4 h-4 transition-all duration-200 hover:w-5 hover:h-5 "/>
 
                     <div class="text-center">
 
@@ -205,17 +211,18 @@
 
                     <div class="flex items-center">
                         <p>Status:</p>
-                        <p class="ml-2 font-mono text-lg">{{ ticketStore.ticketInView?.status }}</p>
+                        <p class="ml-2 translate-y-[2px] font-mono text-lg">{{ ticketStore.ticketInView?.status }}</p>
                     </div>
 
                     <div class="flex items-center">
                         <p>Priority:</p>
-                        <p class="ml-2 font-mono text-lg">{{ ticketStore.ticketInView?.priority }}</p>
+                        <p class="ml-2 translate-y-[2px] font-mono text-lg">{{ ticketStore.ticketInView?.priority }}</p>
                     </div>
                     
-                    <p>Assigned to:</p>
-                    <p class="font-mono text-lg">{{ ticketStore.ticketInView?.assignee?.name ?? 'Unassigned' }}</p>                        
-                    
+                    <div class="flex items-center">
+                        <p>Assigned to:</p>
+                        <p class="ml-2 translate-y-[2px] font-mono text-lg">{{ ticketStore.ticketInView?.assignee?.name ?? 'Unassigned' }}</p>                        
+                    </div>
 
                     <p v-if="successMessage" class="text-green-500">{{ successMessage }}</p>
                     <p v-else-if="errorMessage" class="text-xl text-red-500">{{ errorMessage }}</p>
@@ -223,11 +230,11 @@
                 </div>
 
                 <!-- Kapag ineedit ng user ko -->
-                <div v-if="isBeingEdited" class="flex flex-col gap-2 row-start-2 col-span-3">
+                <div v-if="isBeingEdited" class="grid gap-2 min-md:text-xl justify-items-center gap-4 row-start-2 col-span-3">
 
-                    <p class="flex text-nowrap">Set status</p>
+                    <p class="flex justify-self-center text-nowrap">Set status</p>
 
-                    <div class="flex rounded-xl p-[2px] text-nowrap gap-2 justify-evenly text-xs">
+                    <div class="flex rounded-xl p-[2px] text-nowrap gap-2 max-mobileS:justify-evenly text-xs min-md:text-sm">
                                                                                     
                         <button
                             v-for="option in statusOptions"
@@ -243,9 +250,9 @@
 
                     </div>
 
-                    <p class="text-nowrap">Set priority</p>
+                    <p class="flex justify-self-center text-nowrap">Set priority</p>
                             
-                    <div class="flex rounded-xl pr-2 py-[2px] gap-2 text-xs">
+                    <div class="flex rounded-xl pr-2 py-[2px] gap-2 text-xs min-md:text-sm">
                         <button
                             v-for="option in priorityOptions"
                             :key="option"
@@ -267,7 +274,7 @@
                 </div>
 
                 <!-- Cancel and save button -->
-                <div v-if="isBeingEdited" class="col-start-1 col-span-3 row-start-5">
+                <div v-if="isBeingEdited" class="col-start-1 col-span-3 row-start-5 min-md:text-xl">
 
                     <div class="flex w-fit ml-auto">
                         <button @click="() => {
@@ -320,23 +327,25 @@
 
             <!-- Comment section -->
 
-            <p class="justify-self-center text-everGreen font-mono text-xl font-bold mt-10 mb-4">Comments</p>
+            <p class="flex text-everGreen font-mono text-xl font-bold mt-10 mb-4">Comments</p>
 
-            <div class=" p-6 border border-everGreen rounded-xl bg-white">
+            <div class="p-2 border w-full border-everGreen rounded-xl bg-white">
 
                 <div v-if="commentStore.comments.length > 0" class="grid grid-col-1 gap-y-10">
 
                     <div v-for="comment in commentStore.comments" :key="comment.id" class="text-xl">
                         
-                        <div class="flex">
-                            <p class="font-bold mr-2">{{ comment.creator.name }}</p>
-                            <adminIcon v-if="comment.creator.role == 'admin'"/>
-                            <agentIcon v-else-if="comment.creator.role == 'agent'"/>
-                            <requesterIcon v-else/>
-                            <p class="ml-2 text-slate-500">{{ new Date(comment.created_at).toLocaleString() }}</p>
+                        <div class="flex items-center">
+                            <div class="flex items-center gap-x-[4px]">
+                                <p class="text-xs min-md:text-lg w-fit text-nowrap font-bold">{{ comment.creator.name }}</p>
+                                <adminIcon v-if="comment.creator.role == 'admin'" class="w-4 h-4 min-md:w-6 min-md:h-6 mr-2"/>
+                                <agentIcon v-else-if="comment.creator.role == 'agent'" class="w-4 h-4 min-md:w-6 min-md:h-6 mr-2"/>
+                                <requesterIcon v-else class="w-4 h-4 min-md:w-6 min-md:h-6 mr-2"/>
+                            </div>
+                            <p class="text-xs min-lg:text-base min-md:mr-auto text-nowrap max-md:ml-auto text-slate-500">{{ new Date(comment.created_at).toLocaleString() }}</p>
                         </div>
 
-                        <p>{{ comment.body }}</p>
+                        <p class="text-sm min-3xl:text-base">{{ comment.body }}</p>
                         
                     </div>
                 </div>

@@ -114,26 +114,25 @@
             
             </div>
             
-            <div class="flex flex-col gap-2 mt-2">
+            <div class="grid grid-cols-1 min-md:grid-cols-3 gap-2 mt-2">
 
-                <div class="flex items-center justify-center border border-everGreen text-everGreen rounded-xl pointer-events-none p-2">
+                <div class="grid grid-cols-1 min-md:grid-cols-3 min-md:justify-between items-center min-md:col-span-3 justify-center border border-everGreen text-everGreen rounded-xl pointer-events-none py-2">
 
-                    <p>Title</p>
-                    <!-- <p>Assignee</p>
-                    <p>Priority</p>
-                    <p>Creator</p>
-                    <p>Status</p> -->
+                    <p class="justify-self-center">Title</p>
+                    <p class="max-md:hidden min-md:justify-self-center">Creator</p>
+                    <p class="max-md:hidden min-md:justify-self-center">Assignee</p>
                     
                 </div>
                 
-                <div v-for="ticket in ticketStore.tickets" :key="ticket.id" class="group">
-                    <RouterLink :to="{name: 'ticket-detail', params: { id: ticket.id }}" class="flex justify-center p-2 cursor-default text-slate-500 group-hover:bg-everGreen rounded-xl group-hover:text-white">    
-                        <p>{{ ticket.title }}</p>
-                        <!-- <p v-if="ticket.assignee" class="rounded-xl col-start-2">{{ ticket.assignee.name }}</p>
-                        <p v-else class="rounded-xl col-start-2 p-2">Unassigned</p>
-                        <p class="mr-4 col-start-3">{{ ticket.priority }}</p>
-                        <p class="col-start-4">{{ ticket.creator.name }}</p>
-                        <p class="col-start-5">{{ ticket.status }}</p>             -->
+                <div v-for="ticket in ticketStore.tickets" :key="ticket.id" class="group min-md:col-span-3">
+                    <RouterLink :to="{name: 'ticket-detail', params: { id: ticket.id }}" class="grid min-md:grid min-md:grid-cols-3 min-md:col-span-3 items-center justify-items-center p-2 cursor-default text-slate-500 group-hover:bg-everGreen rounded-xl group-hover:text-white">    
+                        <p class="col-start-1">{{ ticket.title }}</p>
+                        <p class="max-md:hidden col-start-2">{{ ticket.creator.name }}</p>
+                        <p v-if="ticket.assignee" class="max-md:hidden rounded-xl col-start-3">{{ ticket.assignee.name }}</p>
+                        <p v-else class="max-md:hidden rounded-xl col-start-2 p-2 col-start-3">Unassigned</p>
+                        <!-- <p class="mr-4 col-start-3">{{ ticket.priority }}</p>
+                        
+                        <p class="col-start-5">{{ ticket.status }}</p>              -->
                     </RouterLink>
                 </div>
 

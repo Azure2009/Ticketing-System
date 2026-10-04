@@ -3,7 +3,7 @@
 import { useRouter, RouterLink, RouterView } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 import { ref, Transition } from 'vue'
-import { LoaderCircle, PanelRight, X } from '@lucide/vue'
+import { DownloadCloud, LoaderCircle, PanelRight, X } from '@lucide/vue'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -48,9 +48,14 @@ async function handleLogout() {
 
 <template >
 
-  <nav class="relative flex top-0 w-full h-10 bg-everGreen p-6 justify-center items-center text-white">
+  <!-- Overlay a blackscreen when side panel is open -->
+  <div 
+  class="fixed w-screen h-screen bg-black/50 z-10  transition-all duration-300"
+  :class="isSidePanelOpen? 'opacity-100 visible' : 'opacity-0 invisible' "></div>
 
-    <div class="flex gap-x-4 font-mono">
+  <nav class="relative flex top-0 w-full h-10 bg-everGreen p-6 max-md:justify-center items-center text-white">
+
+    <div class="justify-start flex gap-x-4 font-mono">
     
       <span class="cursor-pointer max-md:hidden" v-on:click="router.push({ name: 'main' })">Ticketing System</span>
       <span class="pointer-events-none max-md:hidden">|</span>
@@ -74,8 +79,8 @@ async function handleLogout() {
 
     <PanelRight @click="isSidePanelOpen = true" class="cursor-pointer absolute right-0 mr-2 min-md:hidden"/>
 
-    <div class="max-md:hidden">
-      <span class="ml-auto mx-4 pointer-events-none">{{ authStore.user?.name }} ({{ capitalizeFirstLetter(authStore.user!.role) }})</span>
+    <div class="flex ml-auto items-center max-md:hidden">
+      <span class="mx-4 pointer-events-none">{{ authStore.user?.name }} ({{ capitalizeFirstLetter(authStore.user!.role) }})</span>
       <button class="outline outline-darkSpruce rounded-xl p-2 hover:bg-darkSpruce transition-bg duration-200" v-on:click="promptLogoutConfirmation =true">Logout</button>
     </div>
 
@@ -89,8 +94,8 @@ async function handleLogout() {
   >
 
     <X @click="isSidePanelOpen = false" class="ml-auto cursor-pointer"/>
-    <span class="text-center pointer-events-none">{{ authStore.user?.name }} Role: {{ capitalizeFirstLetter(authStore.user!.role) }}</span>
-    
+    <span class="text-center pointer-events-none">{{ authStore.user?.name }}</span>
+    <span class="text-center pointer-events-none">Role: {{ capitalizeFirstLetter(authStore.user!.role) }}</span>
     
     <button class="cursor-pointer outline outline-darkSpruce rounded-xl p-2 hover:bg-darkSpruce transition-bg duration-200" v-on:click="promptLogoutConfirmation =true">Sign out</button>
     

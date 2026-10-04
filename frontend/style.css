@@ -14,6 +14,13 @@
     --color-darkSpruce-darker: oklch(0.4632 0.0922 155.24);
     --color-darkCoffee: oklch(0.227 0.0324 54.84);
 
+    --breakpoint-mobileS: 20rem;
+    --breakpoint-mobileM: 23.438rem;
+    --breakpoint-mobileL: 26.563rem;
+    --breakpoint-3xl: 90rem;
+    --breakpoint-4xl: 124.625rem;
+    --breakpoint-5xl: 160rem;
+
 }
 
 /* Custom scrollbar ko */
