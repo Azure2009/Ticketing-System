@@ -3,7 +3,7 @@
 import { useRouter, RouterLink, RouterView } from 'vue-router'
 import { useAuthStore } from '../stores/auth'
 import { ref, Transition } from 'vue'
-import { DownloadCloud, LoaderCircle, PanelRight, X } from '@lucide/vue'
+import { LoaderCircle, PanelRight, X } from '@lucide/vue'
 
 const router = useRouter()
 const authStore = useAuthStore()
@@ -53,24 +53,25 @@ async function handleLogout() {
   class="fixed w-screen h-screen bg-black/50 z-10  transition-all duration-300"
   :class="isSidePanelOpen? 'opacity-100 visible' : 'opacity-0 invisible' "></div>
 
-  <nav class="relative flex top-0 w-full h-10 bg-everGreen p-6 max-md:justify-center items-center text-white">
+  <nav class="relative flex top-0 w-full h-10 5xl:h-20 bg-everGreen p-6 max-md:justify-center items-center text-white">
 
     <div class="justify-start flex gap-x-4 font-mono">
     
-      <span class="cursor-pointer max-md:hidden" v-on:click="router.push({ name: 'main' })">Ticketing System</span>
-      <span class="pointer-events-none max-md:hidden">|</span>
+      <span class="cursor-pointer max-md:hidden 5xl:text-3xl" v-on:click="router.push({ name: 'main' })">Ticketing System</span>
+      <span class="pointer-events-none max-md:hidden 5xl:text-3xl">|</span>
       
       <RouterLink
+      class="5xl:text-3xl"
       :to="{ name: 'main' }"
-      active-class="underline decoration-darkSpruce underline-offset-4"
+      active-class="underline 5xl:decoration-4 decoration-darkSpruce underline-offset-4 5xl:underline-offset-8"
       >
       Home
       </RouterLink>
 
       <RouterLink
       :to="{ name: 'tickets' }"
-      class=""
-      active-class="underline decoration-darkSpruce underline-offset-4"
+      class="5xl:text-3xl"
+      active-class="underline 5xl:decoration-4 decoration-darkSpruce underline-offset-4 5xl:underline-offset-8"
       >
       Tickets
       </RouterLink>
@@ -80,8 +81,8 @@ async function handleLogout() {
     <PanelRight @click="isSidePanelOpen = true" class="cursor-pointer absolute right-0 mr-2 min-md:hidden"/>
 
     <div class="flex ml-auto items-center max-md:hidden">
-      <span class="mx-4 pointer-events-none">{{ authStore.user?.name }} ({{ capitalizeFirstLetter(authStore.user!.role) }})</span>
-      <button class="outline outline-darkSpruce rounded-xl p-2 hover:bg-darkSpruce transition-bg duration-200" v-on:click="promptLogoutConfirmation =true">Logout</button>
+      <span class="mx-4 pointer-events-none 5xl:text-3xl">{{ authStore.user?.name }} ({{ capitalizeFirstLetter(authStore.user!.role) }})</span>
+      <button class="5xl:text-3xl outline outline-darkSpruce rounded-xl p-2 hover:bg-darkSpruce transition-bg duration-200" v-on:click="promptLogoutConfirmation =true">Logout</button>
     </div>
 
   </nav>
@@ -116,7 +117,7 @@ async function handleLogout() {
 
       <div class="bg-everGreen p-4 rounded-xl inset-shadow-darkSpruce inset-shadow-sm cursor-default">
         
-        <p class="text-center">Are you sure you want to logout?</p>
+        <p class="text-center 5xl:text-3xl">Are you sure you want to logout?</p>
 
         <div class="flex justify-self-center ml-4 mt-10 gap-14">
 
@@ -124,11 +125,11 @@ async function handleLogout() {
             logoutconfirmed = false
             promptLogoutConfirmation = false
             }"
-            class="p-2 hover:bg-darkSpruce rounded-xl transition-bg duration-200"
+            class="5xl:text-3xl p-2 hover:bg-darkSpruce rounded-xl transition-bg duration-200"
             >No</button>
           <button 
           @click="handleLogout"
-          class="p-2 hover:bg-darkSpruce rounded-xl transition-bg duration-200"
+          class="5xl:text-3xl p-2 hover:bg-darkSpruce rounded-xl transition-bg duration-200"
           >Yes</button>
 
         </div>

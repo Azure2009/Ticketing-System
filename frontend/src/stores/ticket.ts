@@ -15,9 +15,9 @@ export const useTicketStore = defineStore('ticket', () => {
 
     }
 
-    async function index(status: null | string) {
+    async function index(status: null | string, priority: null | string) {
 
-        tickets.value = await apiIndex(status)
+        tickets.value = await apiIndex(status, priority)
         
     }
 

@@ -15,11 +15,13 @@ export async function store(title: string, description: string, priority: null |
 
 }
 
-export async function index(status: null | string): Promise<Ticket[]> {
+export async function index(status: null | string, priority: null | string): Promise<Ticket[]> {
 
-    const url = status? `/tickets?status=${status}` : '/tickets' // Kung walang query parameter na kasama, just show the tickets
+    const res = await api.get('/tickets', {
 
-    const res = await api.get(url)
+        params: {status, priority}
+
+    }) // May built in handler pala si axios para sa multiple query parameters
 
     return res.data
 

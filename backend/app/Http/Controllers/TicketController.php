@@ -17,6 +17,7 @@ class TicketController extends Controller
      */
     public function index(Request $request)
     {
+        $priority = $request->query('priority');
         $status = $request->query('status'); // retrieve ng value sa query parameter kung meron man
         
         $user = $request->user(); // identify kung sino yung user na gumagawa ng request
@@ -34,6 +35,13 @@ class TicketController extends Controller
             $query->where('status', $status);
 
         } // Kung may query parameter na sinend, chain ulit ng panibagong condition sa query object.
+        
+        
+        if ($priority) {
+
+            $query->where('priority', $priority);
+
+        }  // Kung may query parameter na sinend, chain ulit ng panibagong condition sa query object.
 
         $tickets = $query->get(); // run na yung query. Since nag chaining tayo, Depende sa mga previous na nangyare kung ano i rereturn ng query object na ito.
         

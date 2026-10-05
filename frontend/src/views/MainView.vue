@@ -59,8 +59,9 @@
     <div class="relative p-6">
         
         <div class="justify-items-center">
-            <p class="mx-auto font-mono text-everGreen text-center cursor-default">Welcome to the ticketing system</p>
-            <div class="flex-col relative mt-4">
+            <p class="mx-auto font-mono text-everGreen text-center cursor-default 5xl:text-3xl">Welcome to the ticketing system</p>
+
+            <div class="flex-col relative mt-4 5xl:text-3xl">
 
                 <p class="relative flex text-green-500 mt-4" v-if="successMessage">{{ successMessage }}</p>
                 <p class="relative flex text-red-500 mt-4" v-if="errorMessage">{{ errorMessage }}</p>
@@ -80,7 +81,7 @@
 
                     </div>
 
-                    <p class=" text-slate-500 transition-opacity duration-200 text-xs pointer-events-none">Note: Default priority is medium</p>
+                    <p class=" text-slate-500 transition-opacity duration-200 text-xs pointer-events-none 5xl:text-xl">Note: Default priority is medium</p>
                                         
                     <div class="group row-start-4 mr-auto" v-on:mouseenter="isSettingPriority = true" v-on:mouseleave="isSettingPriority = false">
 
@@ -90,7 +91,7 @@
                                                         
                         </div>
                                                     
-                        <div v-if="isSettingPriority" class="absolute grid bg-everGreen text-slate-300 p-2 rounded-xl w-24">
+                        <div v-if="isSettingPriority" class="absolute grid bg-everGreen text-slate-300 p-2 rounded-xl w-24 5xl:w-40 5xl:translate-y-[2px]">
                             <button 
                             v-for="option in priorityOptions"
                             :key="option"
