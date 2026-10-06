@@ -76,6 +76,7 @@
 
     function resetStatus() {
 
+        isFiltered.value = false
         status.value = null
         isStatusSet.value = false
         renderTicketsByFilter()
@@ -84,6 +85,7 @@
 
     function resetPriority() {
 
+        isFiltered.value = false
         priority.value = null
         isPrioritySet.value = false
         renderTicketsByFilter()
@@ -200,7 +202,7 @@
 
             </div>
 
-            <div class="mt-40">
+            <div v-if="isFiltered" class="mt-40">
                 <div>
                     <p class="pointer-events-none text-center text-black text-xl 5xl:text-3xl text-slate-800">No tickets available for this query.</p> 
                     <button @click="resetFilter" class="flex mt-2 justify-self-center 5xl:text-3xl text-slate-500 hover:underline decoration-darkSpruce underline-offset-2">Reset</button>

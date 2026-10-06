@@ -46,44 +46,44 @@
 <div class="relative min-h-screen bg-everGreen p-4">
 
   <div class="flex w-fit justify-self-center bg-darkSpruce-darker text-white items-center rounded-xl gap-x-2 p-2 mb-4">
-    <router-link :to="{ name: 'index' }"><button class="bg-darkSpruce p-2 rounded-xl hover:bg-everGreen hover:transition-bg duration-200"><Home/></button></router-link>
-    <router-link :to="{ name: 'login' }"><button class="p-2 bg-darkSpruce rounded-xl hover:bg-everGreen hover:transition-bg duration-200">Sign in</button></router-link>
+    <router-link :to="{ name: 'index' }"><button class="bg-darkSpruce p-2 rounded-xl hover:bg-everGreen hover:transition-bg duration-200"><Home class="min-5xl:w-10 min-5xl:h-10"/></button></router-link>
+    <router-link :to="{ name: 'login' }"><button class="p-2 bg-darkSpruce rounded-xl hover:bg-everGreen hover:transition-bg duration-200 min-5xl:text-3xl">Sign in</button></router-link>
   </div>
   
 
-  <div class="bg-everGreen inset-shadow-sm inset-shadow-darkSpruce/100 text-white p-4 rounded-xl text-2xl grid grid-cols-1 gap-4 relative p-10 justify-self-center">
+  <div class="bg-everGreen w-fit inset-shadow-sm inset-shadow-darkSpruce/100 text-white p-4 rounded-xl text-2xl grid grid-cols-1 gap-4 relative p-10 justify-self-center">
     
     <form class="row-start-2 grid grid-cols-1 gap-y-4" @submit.prevent="handleRegistration">
 
       <div class="flex w-full border-b-2 pb-4">
 
-        <p class="text-3xl pointer-events-none">Register</p>
+        <p class="text-3xl pointer-events-none min-5xl:text-6xl">Register</p>
 
       </div>
 
-      <div class="row-start-2">
+      <div class="row-start-2 min-5xl:text-4xl">
         <label class="mr-2" for="register_name">Name</label>
       <input autocomplete="off" class="w-full border-2 border-slate-300 rounded-xl outline-none focus:border-darkSpruce px-2 py-1" id="register_name" type="text" v-model="register_name"  required>
       </div>
 
-      <div class="row-start-3">
+      <div class="row-start-3 min-5xl:text-4xl">
         <label class="mr-2" for="register_email">Email</label>
       <input autocomplete="off" class="w-full border-2 border-slate-300 rounded-xl outline-none focus:border-darkSpruce px-2 py-1" id="register_email" type="email" v-model="register_email"  required>  
       </div>
 
-      <div class="row-start-4">  
+      <div class="row-start-4 min-5xl:text-4xl">  
         <label class="mr-2" for="register_password">Create Password</label>
       <input autocomplete="off" class="w-full border-2 border-slate-300 rounded-xl outline-none focus:border-darkSpruce px-2 py-1" id="register_password" type="password" v-model="register_password"  required>      
       </div>
 
-      <div class="row-start-5">
+      <div class="row-start-5 min-5xl:text-4xl">
         <label class="mr-2" for="password_confirmation">Confirm Password</label>
       <input autocomplete="off" class="w-full border-2 border-slate-300 rounded-xl outline-none focus:border-darkSpruce px-2 py-1" id="password_confirmation" type="password" v-model="password_confirmation"  required>  
       </div>
 
       <div class="flex row-start-6 items-center">
-        <button class="outline outline-darkSpruce rounded-xl p-2 hover:bg-darkSpruce transition-bg duration-200" type="submit">Register</button>
-        <p class="text-slate-500 text-xs ml-2 ">note: ticketing system automatically logs you in once you have registered.</p>
+        <button class="min-5xl:text-4xl outline outline-darkSpruce rounded-xl p-2 hover:bg-darkSpruce transition-bg duration-200" type="submit">Register</button>
+        <p class="text-slate-500 text-xs ml-2 min-5xl:text-2xl">note: ticketing system automatically logs you in once you have registered.</p>
       </div>
 
       <div v-if="isLoading" class="flex items-center text-slate-500">

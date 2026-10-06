@@ -157,33 +157,23 @@
         </div>
 
 
-        <div v-if="ticketStore.ticketInView" class="flex flex-col items-center p-2 cursor-default">
+        <div v-if="ticketStore.ticketInView" class="flex flex-col items-center p-2 cursor-default mt-2">
 
-            <button         
-            v-if="authStore.user?.role === 'admin' && !deleteMessage"
-            class="flex w-fit mb-4 text-slate-500 border border-slate-500  rounded-xl p-2 hover:text-red-500 hover:border-red-500 hover:transition-[text,border] duration-200 "
-            @click="handleDelete"        
-            >
-
-            Delete this ticket
-
-            </button>
-
-            <p class="justify-self-center text-everGreen font-mono text-xl font-bold mb-4">Ticket</p>
+            <p class="justify-self-center text-everGreen font-mono text-xl font-bold mb-4 min-5xl:text-5xl">Ticket</p>
 
             <!-- Ticket display ko -->
 
-            <div class=" grid grid-cols-3 gap-2 border border-everGreen rounded-xl mb-6 p-4 w-full bg-white">
+            <div class=" grid grid-cols-3 gap-2 border border-everGreen rounded-xl mb-6 p-4 max-5xl:w-full min-5xl:w-300 bg-white">
 
                 <div class="col-start-1 col-span-3 relative flex flex-col gap-3 border border-everGreen rounded-xl p-2">
 
-                    <Maximize2 @click="fullScreenOn" class="ml-auto cursor-pointer right-2 top-2 text-everGreen translate-y-[4px] w-4 h-4 transition-all duration-200 hover:w-5 hover:h-5 "/>
+                    <Maximize2 @click="fullScreenOn" class="ml-auto cursor-pointer right-2 top-2 text-everGreen translate-y-[4px] w-4 h-4 min-5xl:w-10 min-5xl:h-10 transition-all duration-200 hover:w-5 hover:h-5 hover:min-5xl:w-14 hover:min-5xl:h-14"/>
 
                     <div class="text-center">
 
-                        <p class="text-2xl truncate">{{ ticketStore.ticketInView?.title }}</p>
+                        <p class="text-2xl truncate min-5xl:text-5xl mb-4">{{ ticketStore.ticketInView?.title }}</p>
                         
-                        <div class="text-slate-500">
+                        <div class="text-slate-500 min-5xl:text-3xl">
                             <p>Created By</p>
                             <p>{{ ticketStore.ticketInView?.creator.name }}</p> 
                         </div>
@@ -191,8 +181,8 @@
                     </div>
 
                     <div>
-                        <p class="text-lg font-bold">Description</p>                    
-                        <p class="indent-8 truncate">{{ ticketStore.ticketInView?.description }}</p>
+                        <p class="text-lg min-5xl:text-3xl font-bold">Description</p>                    
+                        <p class="indent-8 truncate min-5xl:text-2xl">{{ ticketStore.ticketInView?.description }}</p>
                     </div>
 
                 </div>
@@ -204,33 +194,33 @@
                     class="group flex items-center ml-auto mb-auto text-everGreen cursor-default rounded-xl p-2 hover:text-white transition-text duration-200 hover:bg-everGreen transition-bg duration-200"
                     @click="showForm"        
                     >
-                        <FilePenLine/>
-                        <div class="absolute pointer-events-none flex border-2 w-fit text-nowrap -translate-x-44 border-slate-300 bg-black text-white text-[10px] px-px opacity-0 invisible group-hover:opacity-100 visible group-hover:transition-opacity duration-200">Set status, priority, and assignee id</div>
+                        <FilePenLine class="min-5xl:w-10 min-5xl:h-10"/>
+                        <div class="absolute pointer-events-none flex border-2 min-5xl:text-xl w-fit text-nowrap -translate-x-44 min-5xl:-translate-x-84 border-slate-300 bg-black text-white text-[10px] px-px opacity-0 invisible group-hover:opacity-100 visible group-hover:transition-opacity duration-200">Set status, priority, and assignee id</div>
                     </button>
 
 
                     <div class="flex items-center">
-                        <p>Status:</p>
-                        <p class="ml-2 translate-y-[2px] font-mono text-lg">{{ ticketStore.ticketInView?.status }}</p>
+                        <p class="min-5xl:text-4xl">Status:</p>
+                        <p class="ml-2 translate-y-[2px] font-mono text-lg min-5xl:text-3xl">{{ ticketStore.ticketInView?.status }}</p>
                     </div>
 
                     <div class="flex items-center">
-                        <p>Priority:</p>
-                        <p class="ml-2 translate-y-[2px] font-mono text-lg">{{ ticketStore.ticketInView?.priority }}</p>
+                        <p class="min-5xl:text-4xl">Priority:</p>
+                        <p class="ml-2 translate-y-[2px] font-mono text-lg min-5xl:text-3xl" >{{ ticketStore.ticketInView?.priority }}</p>
                     </div>
                     
                     <div class="flex items-center">
-                        <p>Assigned to:</p>
-                        <p class="ml-2 translate-y-[2px] font-mono text-lg">{{ ticketStore.ticketInView?.assignee?.name ?? 'Unassigned' }}</p>                        
+                        <p class="min-5xl:text-4xl">Assigned to:</p>
+                        <p class="ml-2 translate-y-[2px] font-mono text-lg min-5xl:text-3xl" >{{ ticketStore.ticketInView?.assignee?.name ?? 'Unassigned' }}</p>                        
                     </div>
 
-                    <p v-if="successMessage" class="text-green-500">{{ successMessage }}</p>
-                    <p v-else-if="errorMessage" class="text-xl text-red-500">{{ errorMessage }}</p>
+                    <p v-if="successMessage" class="text-green-500 min-5xl:text-2xl">{{ successMessage }}</p>
+                    <p v-else-if="errorMessage" class="text-xl text-red-500 min-5xl:text-2xl">{{ errorMessage }}</p>
                     
                 </div>
 
                 <!-- Kapag ineedit ng user ko -->
-                <div v-if="isBeingEdited" class="grid gap-2 min-md:text-xl justify-items-center gap-4 row-start-2 col-span-3">
+                <div v-if="isBeingEdited" class="grid gap-2 min-md:text-xl min-5xl:text-4xl justify-items-center gap-4 row-start-2 col-span-3">
 
                     <p class="flex justify-self-center text-nowrap">Set status</p>
 
@@ -242,7 +232,7 @@
                             type="button"
                             @click="status = option"                            
                             v-bind:class="[
-                                'rounded-xl p-2 transition-colors duration-150',
+                                'rounded-xl p-2 transition-colors duration-150 min-5xl:text-2xl',
                                 status === option? 'bg-everGreen text-white' : 'hover:bg-slate-200'
                             ]">
                             {{ option }}
@@ -259,7 +249,7 @@
                             type="button"
                             @click="priority = option"                            
                             v-bind:class="[
-                                'rounded-xl p-2 transition-colors duration-150',
+                                'rounded-xl p-2 transition-colors duration-150 min-5xl:text-2xl',
                                 priority === option ? 'bg-everGreen text-white' : 'hover:bg-slate-200'
                             ]">                    
                             {{ option }}
@@ -282,12 +272,12 @@
                             isBeingEdited = false
                             
                         }"
-                        class="decoration-everGreen decoration-2 underline-offset-2 hover:underline"
+                        class="decoration-everGreen decoration-2 underline-offset-2 hover:underline min-5xl:text-4xl"
                         >
                         Cancel
                         </button>
 
-                        <button @click="handleEdit" class="ml-4 decoration-everGreen decoration-2 underline-offset-2 hover:underline">Save</button>
+                        <button @click="handleEdit" class="ml-4 decoration-everGreen decoration-2 underline-offset-2 hover:underline min-5xl:text-4xl">Save</button>
                     </div>
 
                 </div>
@@ -300,13 +290,13 @@
 
                 <div class="flex flex-col text-white ring-2 p-2 bg-everGreen w-full h-fit rounded-xl">
                     
-                    <CircleX @click="fullScreenOff" class="cursor-pointer flex ml-auto"/>
+                    <CircleX @click="fullScreenOff" class="cursor-pointer flex ml-auto min-5xl:w-14 min-5xl:h-14"/>
                     
                     <div class="text-center">
 
-                        <p class="text-2xl">{{ ticketStore.ticketInView?.title }}</p>
+                        <p class="text-2xl min-5xl:text-5xl mb-4">{{ ticketStore.ticketInView?.title }}</p>
                         
-                        <div class="">
+                        <div class="min-5xl:text-3xl">
                             <p>Created By</p>
                             <p>{{ ticketStore.ticketInView?.creator.name }}</p> 
                         </div>
@@ -315,10 +305,10 @@
 
                     <div class="p-2">
                           
-                        <p class="text-lg font-bold">Description</p>                    
+                        <p class="text-lg font-bold min-5xl:text-4xl">Description</p>                    
                         
                         <div class="border-4 border-everGreen-darker p-2">
-                            <p class=" indent-8 break-words text-wrap">{{ ticketStore.ticketInView?.description }}</p>
+                            <p class=" indent-8 break-words text-wrap min-5xl:text-3xl">{{ ticketStore.ticketInView?.description }}</p>
                         </div>
                     </div>
                 </div>
@@ -327,9 +317,9 @@
 
             <!-- Comment section -->
 
-            <p class="flex text-everGreen font-mono text-xl font-bold mt-10 mb-4">Comments</p>
+            <p class="flex text-everGreen font-mono text-xl font-bold mt-10 mb-4 min-5xl:text-5xl">Comments</p>
 
-            <div class="p-2 border w-full border-everGreen rounded-xl bg-white">
+            <div class="p-2 border max-5xl:w-full w-1/2 border-everGreen rounded-xl bg-white">
 
                 <div v-if="commentStore.comments.length > 0" class="grid grid-col-1 gap-y-10">
 
@@ -337,29 +327,39 @@
                         
                         <div class="flex items-center">
                             <div class="flex items-center gap-x-[4px]">
-                                <p class="text-xs min-md:text-lg w-fit text-nowrap font-bold">{{ comment.creator.name }}</p>
-                                <adminIcon v-if="comment.creator.role == 'admin'" class="w-4 h-4 min-md:w-6 min-md:h-6 mr-2"/>
-                                <agentIcon v-else-if="comment.creator.role == 'agent'" class="w-4 h-4 min-md:w-6 min-md:h-6 mr-2"/>
-                                <requesterIcon v-else class="w-4 h-4 min-md:w-6 min-md:h-6 mr-2"/>
+                                <p class="text-xs min-md:text-lg w-fit text-nowrap font-bold min-5xl:text-3xl">{{ comment.creator.name }}</p>
+                                <adminIcon v-if="comment.creator.role == 'admin'" class="w-4 h-4 min-md:w-6 min-md:h-6 mr-2 min-5xl:w-10 min-5xl:h-10 mr-2"/>
+                                <agentIcon v-else-if="comment.creator.role == 'agent'" class="w-4 h-4 min-md:w-6 min-md:h-6 mr-2 min-5xl:w-10 min-5xl:h-10 mr-2"/>
+                                <requesterIcon v-else class="w-4 h-4 min-md:w-6 min-md:h-6 mr-2 min-5xl:w-10 min-5xl:h-10 mr-2"/>
                             </div>
-                            <p class="text-xs min-lg:text-base min-md:mr-auto text-nowrap max-md:ml-auto text-slate-500">{{ new Date(comment.created_at).toLocaleString() }}</p>
+                            <p class="text-xs min-lg:text-base min-5xl:text-2xl min-md:mr-auto text-nowrap max-md:ml-auto text-slate-500">{{ new Date(comment.created_at).toLocaleString() }}</p>
                         </div>
 
-                        <p class="text-sm min-3xl:text-base">{{ comment.body }}</p>
+                        <p class="text-sm min-3xl:text-base min-5xl:text-2xl">{{ comment.body }}</p>
                         
                     </div>
                 </div>
 
-                <div v-else class="text-slate-500 justify-self-center">
+                <div v-else class="text-slate-500 justify-self-center min-5xl:text-2xl">
                     <p>No comments yet</p>
                 </div>
 
                 <form @submit.prevent="handlePost" class="mt-4 bg-slate-200 rounded-xl p-2">
-                    <textarea v-model="comment" id="comment" placeholder="Post a comment" class="w-full p-2 resize-none rounded-xl outline-none"></textarea>
-                    <button type="submit" class="flex ml-auto mr-2 border bg-everGreen text-white rounded-xl mt-2 py-[1] px-4 text-slate-500 cursor-pointer">Post</button>
+                    <textarea v-model="comment" id="comment" placeholder="Post a comment" class="w-full p-2 resize-none rounded-xl outline-none min-5xl:text-2xl"></textarea>
+                    <button type="submit" class="flex ml-auto mr-2 border bg-everGreen text-white rounded-xl mt-2 py-[1] px-4 text-slate-500 cursor-pointer min-5xl:text-2xl">Post</button>
                 </form>            
                 
             </div>
+
+            <button         
+            v-if="authStore.user?.role === 'admin' && !deleteMessage"
+            class="flex w-fit mb-4 mt-4 text-slate-500 border border-slate-500 min-5xl:text-3xl rounded-xl p-2 hover:text-red-500 hover:border-red-500 hover:transition-[text,border] duration-200 "
+            @click="handleDelete"        
+            >
+
+            Delete this ticket
+
+            </button>
             
         </div>
 

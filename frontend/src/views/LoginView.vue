@@ -44,15 +44,15 @@
   <div class="flex justify-center">
     <router-link :to="{ name: 'index' }" class="inline-flex">
       <button class="text-white p-2 justify-self-center rounded-xl hover:bg-darkSpruce hover:transition-bg duration-200">
-        <Home/>
+        <Home class="min-5xl:w-14 min-5xl:h-14"/>
       </button>
     </router-link>
   </div>
-  <div class="bg-everGreen inset-shadow-sm inset-shadow-darkSpruce/100 text-white p-4 rounded-xl text-2xl justify-self-center flex flex-col gap-4 relative p-10 mt-10">
+  <div class="bg-everGreen w-fit min-5xl:text-4xl inset-shadow-sm inset-shadow-darkSpruce/100 text-white p-4 rounded-xl text-2xl justify-self-center flex flex-col gap-4 relative p-10 mt-10">
 
     <div class="flex w-full border-b-2 pb-4">
 
-      <p class="text-3xl pointer-events-none">Sign in</p>
+      <p class="text-3xl min-5xl:text-6xl pointer-events-none">Sign in</p>
 
     </div>
 
@@ -72,8 +72,8 @@
         <button type="submit" class="outline outline-darkSpruce rounded-xl p-2 hover:bg-darkSpruce transition-bg duration-200">Sign In</button>
 
         <div v-if="isLoading" class="ml-2 flex items-center text-slate-500">
-          <p class="text-base">Signing in</p>
-          <LoaderCircle class="ml-px scale-70 animate-spin"/>
+          <p class="text-base min-5xl:text-2xl">Signing in</p>
+          <LoaderCircle class="ml-px min-5xl:ml-2 scale-70 min-5xl:scale-90 min-5xl:translate-y-[2px] animate-spin"/>
         </div>
 
       </div>
