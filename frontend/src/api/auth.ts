@@ -3,7 +3,7 @@ import type { User } from '../types/user'
 
 async function getCsrfCookie() {
 
-    await api.get(`${import.meta.env.VITE_API_BASE_URL}/sanctum/csrf-cookie'`);  
+    await api.get(`${import.meta.env.VITE_API_BASE_URL}/sanctum/csrf-cookie`);  
    
 }
 
