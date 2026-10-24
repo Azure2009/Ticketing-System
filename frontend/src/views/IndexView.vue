@@ -2,6 +2,7 @@
 
     import { useRouter } from 'vue-router'
     import { onMounted,  onUnmounted, ref, Transition } from 'vue'
+    import { Copy } from '@lucide/vue'
 
 
     const router = useRouter()
@@ -16,6 +17,8 @@
     const isVisible_2 = ref(false)
     const isVisible_3 = ref(false)
     const isVisible_4 = ref(false)
+
+    const isCopySuccess = ref(false)
 
     let observer_1: IntersectionObserver | null = null
     let observer_2: IntersectionObserver | null = null
@@ -110,15 +113,27 @@
 
     }
 
-    function toGitHub() {
+    async function copyToClipboard() {
 
-        window.location.href = 'https://github.com/Azure2009'
+        const gmail = document.getElementById('myGmail')!.innerText;
 
-    }
+        try {
+            
+            await navigator.clipboard.writeText(gmail);
 
-    function toLinkedIn() {
+            isCopySuccess.value = true;
 
-        window.location.href = 'https://www.linkedin.com/in/juan-carlo-abalajon/'
+            setTimeout(() => {
+
+                isCopySuccess.value = false;
+
+            }, 1000)
+
+        } catch (error) {
+            
+            alert('Could not copy: ' + error);
+
+        }
 
     }
 
@@ -407,6 +422,15 @@
                                 <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/>
                             </svg>
                         </a>
+                        
+                    </div>
+
+                    <div class="flex justify-center items-center gap-2">
+                        <p class="mt-6 3xl:text-xl 5xl:text-3xl" id="myGmail">carlo.dev.work@gmail.com</p>
+                        <div class="relative">
+                            <Copy @click="copyToClipboard" class="cursor-pointer w-4 h-4 5xl:w-8 5xl:h-8 translate-y-3"/>
+                            <div v-if="isCopySuccess" class="absolute text-xs text-nowrap -translate-x-3 5xl:-translate-x-2 bg-black 5xl:-translate-y-14 -translate-y-8 p-[1.5px] 5xl:text-xl">Email copied!</div>
+                        </div>
                         
                     </div>
 
