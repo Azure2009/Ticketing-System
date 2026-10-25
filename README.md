@@ -12,6 +12,13 @@ A ticketing system for teams. This can improve efficiency and coordination of te
 - Secure Authentication using laravel sanctum
 - Threaded comments
 
+# Demos
+
+`Creating ticket`
+
+![Creating Ticket](assets/creatingTicket_demo.gif)
+
+
 # Future plan
 
 Right now, the only difference between agents and admin, is that an admin can delete tickets. I am planning to add a rule for agents where they can only assign themselves(not other agents) to openly available tickets while an admin can assign any agent to any ticket.
