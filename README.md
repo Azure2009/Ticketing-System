@@ -92,7 +92,7 @@ php artisan key:generate
 VITE_API_URL=http://localhost:8000/api
 VITE_API_BASE_URL=http://localhost:8000
 ```
-### 5. Setup database migration
+### 4. Setup database migration
 
 The database schema is managed through Laravel migrations. You do not need to create the tables manually.
 
@@ -102,7 +102,7 @@ From the `backend` directory, run:
 php artisan migrate
 ```
 
-### 6. Run it
+### 5. Run it
  
 ```bash
 # terminal 1
@@ -129,7 +129,7 @@ If you want to try the other roles, update the role column in the database.
 Check the available users:
 
 ```sql
-SELECT & FROM users;
+SELECT * FROM users;
 ```
 
 Update the user's role:
