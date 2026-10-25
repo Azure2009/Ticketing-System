@@ -12,13 +12,6 @@ A ticketing system for teams. This can improve efficiency and coordination of te
 - Secure Authentication using laravel sanctum
 - Threaded comments
 
-# Demos
-
-`Creating ticket`
-
-![Creating Ticket](assets/creatingTicket_demo.gif)
-
-
 # Future plan
 
 Right now, the only difference between agents and admin, is that an admin can delete tickets. I am planning to add a rule for agents where they can only assign themselves(not other agents) to openly available tickets while an admin can assign any agent to any ticket.
@@ -31,6 +24,26 @@ PHP | Tailwind CSS | PostgreSQL | Laravel(PHP framework) | Vite | TypeScript/Jav
 
 **Backend:** Digital Ocean Droplet
 **Frontend:** Vercel
+
+# Create a ticket
+
+![Creating Ticket](assets/creatingTicket_demo.gif)
+
+# Edit and Assign
+
+![Edit and Assign Ticket](assets/editAndAssign_demo.gif)
+
+# Filter Tickets
+
+![Filter Ticket](assets/filteringTicket_demo.gif)
+
+# Post a comment
+
+![Post comment](assets/postComment_demo.gif)
+
+# Comments from different roles
+
+![Different roles comments](assets/Comments-of-different-roles.png)
 
 ## Getting Started
 
